@@ -6,27 +6,177 @@
     <title>Fit Fuel Sudan | فت فيول السودان</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #27ae60; --secondary: #f39c12; --dark: #2d3436; --light: #f9f9f9; }
-        body { font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; background-color: var(--light); color: var(--dark); line-height: 1.6; }
-        header { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary); }
-        .contact-btn { background: var(--primary); color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .hero { padding: 50px 5%; background: white; text-align: center; }
-        .hero h1 { font-size: 2.5rem; color: var(--dark); margin-bottom: 10px; }
-        .btn-whatsapp { background: #25d366; color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; box-shadow: 0 4px 15px rgba(37,211,102, 0.3); }
-        .calculator { background: #eef2f3; padding: 40px 5%; margin: 20px 5%; border-radius: 20px; text-align: center; }
-        .calc-inputs { display: flex; flex-direction: column; max-width: 400px; margin: 0 auto; }
-        input, select { padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; font-family: 'Tajawal', sans-serif; }
-        .calc-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .menu { padding: 40px 5%; }
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .menu-item { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
-        .menu-item img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
-        .price { color: var(--primary); font-weight: bold; font-size: 1.3rem; }
-        footer { background: var(--dark); color: white; text-align: center; padding: 30px; margin-top: 50px; }
+        :root {
+            --primary: #27ae60;
+            --secondary: #f39c12;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: #fff;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .contact-btn {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hero {
+            padding: 50px 5%;
+            background: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            margin-top: 20px;
+        }
+
+        .calculator {
+            background: #eef2f3;
+            padding: 40px 5%;
+            margin: 20px 5%;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .calc-inputs {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input, select {
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .calc-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .menu {
+            padding: 40px 5%;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .menu-card:hover .menu-item {
+            border-color: var(--primary);
+        }
+
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .order-now {
+            background: var(--primary);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
+
     <header>
         <div class="logo">🥦 Fit Fuel Sudan</div>
         <a href="tel:0930030078" class="contact-btn">اتصل بنا</a>
@@ -35,7 +185,7 @@
     <section class="hero">
         <h1>صحتك بلمسة سودانية 🇸🇩</h1>
         <p>وجبات صحية، طازجة، ومحسوبة السعرات تصلك يومياً.</p>
-        <a href="https://wa.me/249930030078?text=مرحباً Fit Fuel، أريد الاستفسار عن باقات الاشتراك المتاحة" class="btn-whatsapp">اطلب عبر واتساب الآن</a>
+        <a href="https://wa.me/249930030078?text=مرحباً Fit Fuel، أريد الاستفسار عن باقات الاشتراك المتاحة" class="btn-whatsapp">تحدث معنا عبر واتساب</a>
     </section>
 
     <section class="calculator">
@@ -56,16 +206,25 @@
     <section class="menu">
         <h2 style="text-align: center;">باقاتنا المختارة 🔥</h2>
         <div class="menu-grid">
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="وجبة دايت">
-                <h3>باقة الرشاقة (Loss)</h3>
-                <p class="price">4,500 SDG / يومياً</p>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400" alt="وجبة عضل">
-                <h3>باقة الضخامة (Gain)</h3>
-                <p class="price">6,000 SDG / يومياً</p>
-            </div>
+            <a href="https://wa.me/249930030078?text=أريد الاشتراك في باقة الرشاقة (Loss)" class="menu-card">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="وجبة دايت">
+                    <h3>باقة الرشاقة (Loss)</h3>
+                    <p>وجبات منخفضة الكربوهيدرات لخسارة الوزن</p>
+                    <span class="price">4,500 SDG / يومياً</span>
+                    <span class="order-now">اضغط هنا للطلب</span>
+                </div>
+            </a>
+
+            <a href="https://wa.me/249930030078?text=أريد الاشتراك في باقة الضخامة (Gain)" class="menu-card">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400" alt="وجبة عضل">
+                    <h3>باقة الضخامة (Gain)</h3>
+                    <p>بروتين عالٍ لدعم بناء العضلات والرياضيين</p>
+                    <span class="price">6,000 SDG / يومياً</span>
+                    <span class="order-now">اضغط هنا للطلب</span>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -80,10 +239,15 @@
             const a = document.getElementById('age').value;
             const g = document.getElementById('gender').value;
             const res = document.getElementById('result');
+
             if(w && h && a) {
-                let bmr = (g === 'male') ? (10 * w + 6.25 * h - 5 * a + 5) : (10 * w + 6.25 * h - 5 * a - 161);
-                res.innerHTML = "تحتاج إلى حوالي " + Math.round(bmr) + " سعرة حرارية يومياً.";
-            } else { res.innerHTML = "يرجى إكمال البيانات!"; }
+                let bmr = (g === 'male') ? 
+                    (10 * w + 6.25 * h - 5 * a + 5) : 
+                    (10 * w + 6.25 * h - 5 * a - 161);
+                res.innerHTML = "احتياجك اليومي التقريبي هو " + Math.round(bmr) + " سعرة حرارية.";
+            } else {
+                res.innerHTML = "يرجى إدخال جميع البيانات.";
+            }
         }
     </script>
 </body>
