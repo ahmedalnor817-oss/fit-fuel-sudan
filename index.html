@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | تجربة الغذاء الفاخر</title>
+    <title>Fit Fuel Elite | باقات الرشاقة والصحة</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #c5a059;
-            --premium-green: #1a5319;
             --dark-bg: #0a0a0a;
             --card-bg: #141414;
-            --text-gray: #a0a0a0;
             --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -23,13 +22,12 @@
             scroll-behavior: smooth;
         }
 
-        /* نافذة الترحيب المتحركة */
         header {
-            padding: 25px 8%;
+            padding: 20px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
@@ -37,49 +35,36 @@
             border-bottom: 1px solid #222;
         }
 
-        .logo { font-size: 28px; font-weight: 900; letter-spacing: 1px; }
+        .logo { font-size: 24px; font-weight: 900; }
         .logo span { color: var(--gold); }
 
-        .btn-reserve {
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 10px 25px;
+        .btn-wa {
+            background: var(--gold);
+            color: #000;
+            padding: 10px 20px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
         }
-        .btn-reserve:hover { background: var(--gold); color: black; }
 
-        /* واجهة النخبة */
+        /* قسم الترحيب والحاسبة */
         .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 60px 8%;
             text-align: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7), var(--dark-bg)), 
-                        url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600');
-            background-size: cover;
-            background-position: center;
-            padding: 0 5%;
+            background: radial-gradient(circle at top, #1a1a1a, var(--dark-bg));
         }
 
-        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 20px; line-height: 1.2; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
         .hero h1 span { color: var(--gold); }
-        .hero p { color: var(--text-gray); font-size: 1.2rem; max-width: 800px; margin-bottom: 40px; }
 
-        /* حاسبة السعرات بتصميم "زجاجي" */
         .glass-calc {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 40px;
+            background: var(--glass);
+            padding: 30px;
             border-radius: 30px;
-            width: 100%;
             max-width: 600px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .grid-inputs {
@@ -90,194 +75,153 @@
         }
 
         input, select {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.5);
             border: 1px solid #333;
             color: white;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 12px;
             font-family: 'Noto Kufi Arabic';
-            outline: none;
         }
 
-        .btn-action {
+        .btn-calc {
             width: 100%;
             background: var(--gold);
-            color: black;
-            padding: 18px;
+            padding: 15px;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             font-weight: 900;
-            font-size: 18px;
             cursor: pointer;
-            transition: 0.3s;
         }
-        .btn-action:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(197, 160, 89, 0.4); }
 
-        /* قسم الباقات الفخمة */
-        .section-title { text-align: center; margin: 100px 0 50px; }
-        .section-title h2 { font-size: 3rem; margin-bottom: 10px; }
-        .section-title div { width: 80px; height: 4px; background: var(--gold); margin: 0 auto; }
+        /* قسم الباقات الثلاثي */
+        .section-title { text-align: center; margin: 80px 0 40px; }
+        .section-title h2 { font-size: 2.2rem; }
+        .section-title div { width: 60px; height: 3px; background: var(--gold); margin: 10px auto; }
 
         .luxury-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
             padding: 0 8%;
         }
 
         .luxury-card {
-            background: var(--card-bg);
-            border-radius: 40px;
+            height: 450px;
+            border-radius: 35px;
             overflow: hidden;
             position: relative;
-            transition: 0.5s;
-            border: 1px solid #222;
-            text-decoration: none;
-            color: white;
-        }
-        .luxury-card:hover { transform: translateY(-20px); border-color: var(--gold); }
-
-        .card-banner {
-            height: 300px;
+            display: flex;
+            align-items: flex-end;
             background-size: cover;
             background-position: center;
+            text-decoration: none;
+            color: white;
+            transition: 0.4s ease;
+            border: 1px solid #222;
         }
 
-        .card-body { padding: 40px; }
-        .price-box { font-size: 28px; font-weight: 900; color: var(--gold); margin: 20px 0; }
+        .luxury-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 25%, transparent 70%);
+            z-index: 1;
+        }
 
-        /* قسم الابتكار: خطوات الاشتراك */
-        .steps {
+        .luxury-card:hover { transform: translateY(-10px); border-color: var(--gold); }
+
+        .card-content { padding: 30px; position: relative; z-index: 2; width: 100%; }
+        .price-tag { font-size: 24px; font-weight: 900; color: var(--gold); margin-top: 10px; display: block; }
+
+        /* قسم السناكات */
+        .snack-section { padding: 80px 8%; text-align: center; }
+        .snack-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            padding: 80px 8%;
-            text-align: center;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
         }
-        .step-item i { font-size: 40px; color: var(--gold); display: block; margin-bottom: 20px; }
+        .snack-box img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; }
 
-        /* قسم السناكات الفاخرة */
-        .snack-premium {
-            background: #111;
-            padding: 80px 8%;
-            border-radius: 100px 100px 0 0;
-        }
-
-        footer {
-            padding: 80px 8%;
-            background: #000;
-            text-align: center;
-            border-top: 1px solid #222;
-        }
-
-        #result-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(197, 160, 89, 0.1);
-            color: var(--gold);
-            display: none;
-            font-weight: bold;
-            border: 1px solid var(--gold);
-        }
+        footer { padding: 60px 8%; text-align: center; border-top: 1px solid #222; background: #000; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">FIT<span>FUEL</span> ELITE</div>
-        <a href="https://wa.me/966563683212" class="btn-reserve">عضوية النخبة</a>
+        <a href="https://wa.me/966563683212" class="btn-wa">تواصل مباشر</a>
     </header>
 
     <section class="hero">
-        <h1>صمم <span>جهازك الهضمي</span><br>بأعلى معايير الرفاهية</h1>
-        <p>في Fit Fuel، ندمج بين العلم الغذائي وفن الطهي لنقدم لك وجبات تليق بمقامك وأهدافك الصحية في المملكة.</p>
-        
+        <h1>صحتك تبدأ من <span>اختيارك</span></h1>
         <div class="glass-calc">
-            <h3 style="margin-bottom: 25px;">حاسبة الذكاء الغذائي 🧬</h3>
+            <h3 style="margin-bottom: 20px;">حاسبة احتياج الجسم الذكية ⚖️</h3>
             <div class="grid-inputs">
-                <input type="number" id="w" placeholder="الوزن (كجم)">
-                <input type="number" id="h" placeholder="الطول (سم)">
+                <input type="number" id="w" placeholder="الوزن">
+                <input type="number" id="h" placeholder="الطول">
                 <input type="number" id="a" placeholder="العمر">
                 <select id="g">
                     <option value="m">سيد</option>
                     <option value="f">سيدة</option>
                 </select>
             </div>
-            <button class="btn-action" onclick="calculate()">تحليل البيانات الآن</button>
-            <div id="result-box"></div>
+            <button class="btn-calc" onclick="calculate()">تحليل البيانات</button>
+            <div id="res" style="margin-top:20px; display:none; color:var(--gold); font-weight:bold;"></div>
         </div>
     </section>
 
-    <div class="steps">
-        <div class="step-item">
-            <div style="font-size: 40px;">📅</div>
-            <h3>حدد هدفك</h3>
-            <p style="color:var(--text-gray)">اختر الباقة التي تناسب طموحك الرياضي.</p>
-        </div>
-        <div class="step-item">
-            <div style="font-size: 40px;">🥗</div>
-            <h3>نطبخ بشغف</h3>
-            <p style="color:var(--text-gray)">مكونات عضوية طازجة يومياً من مزارعنا.</p>
-        </div>
-        <div class="step-item">
-            <div style="font-size: 40px;">🚀</div>
-            <h3>توصيل ملكي</h3>
-            <p style="color:var(--text-gray)">تصلك وجباتك في صناديق مبردة لباب منزلك.</p>
-        </div>
-    </div>
-
     <div class="section-title">
-        <h2>باقات النخبة</h2>
+        <h2>باقاتنا الفاخرة</h2>
         <div></div>
     </div>
 
     <div class="luxury-grid">
-        <a href="https://wa.me/966563683212?text=أريد الانضمام لباقة الرشاقة النخبوية" class="luxury-card">
-            <div class="card-banner" style="background-image: url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600');"></div>
-            <div class="card-body">
-                <small style="color:var(--gold)">PROGRAM: SLIM & SCULPT</small>
-                <h3>باقة الرشاقة الذهبية</h3>
-                <p style="color:var(--text-gray)">نظام غذائي متطور يعتمد على تقليل الالتهابات وحرق الدهون بذكاء.</p>
-                <div class="price-box">2,500 <small>ر.س / شهرياً</small></div>
-                <div style="border-top:1px solid #333; padding-top:20px; color:var(--gold)">اشترك الآن في تجربة النخبة ←</div>
+        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة دايت كير (توازن)" class="luxury-card" style="background-image: url('https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=800');">
+            <div class="card-content">
+                <small style="color:var(--gold)">NEW PLAN: BALANCE</small>
+                <h3>باقة دايت كير (توازن)</h3>
+                <p style="opacity: 0.8;">تجمع بين الصحة واللذة، صُممت لتناسب نمط حياتك اليومي المتوازن.</p>
+                <span class="price-tag">2,350 ر.س <small style="color:white; font-size:12px;">/ شهر</small></span>
             </div>
         </a>
 
-        <a href="https://wa.me/966563683212?text=أريد الانضمام لباقة القوة والضخامة" class="luxury-card">
-            <div class="card-banner" style="background-image: url('https://images.unsplash.com/photo-1535914230205-87586ad9c9d6?w=600');"></div>
-            <div class="card-body">
-                <small style="color:var(--gold)">PROGRAM: POWER & GAIN</small>
+        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة الرشاقة" class="luxury-card" style="background-image: url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800');">
+            <div class="card-content">
+                <small style="color:var(--gold)">GOAL: WEIGHT LOSS</small>
+                <h3>باقة الرشاقة الذهبية</h3>
+                <p style="opacity: 0.8;">تركيز عالٍ على حرق الدهون بوجبات منخفضة الكربوهيدرات وغنية بالألياف.</p>
+                <span class="price-tag">2,500 ر.س <small style="color:white; font-size:12px;">/ شهر</small></span>
+            </div>
+        </a>
+
+        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة الضخامة" class="luxury-card" style="background-image: url('https://images.unsplash.com/photo-1541544181051-95c556b60408?w=800');">
+            <div class="card-content">
+                <small style="color:var(--gold)">GOAL: MUSCLE GAIN</small>
                 <h3>باقة القوة العضلية</h3>
-                <p style="color:var(--text-gray)">بروتين صافي مع كربوهيدرات معقدة لتعزيز الريكفري وبناء الكتلة.</p>
-                <div class="price-box">3,200 <small>ر.س / شهرياً</small></div>
-                <div style="border-top:1px solid #333; padding-top:20px; color:var(--gold)">اشترك الآن في تجربة النخبة ←</div>
+                <p style="opacity: 0.8;">وجبات ضخمة محسوبة البروتين لتدعم بناء الأنسجة العضلية والريكفري.</p>
+                <span class="price-tag">3,200 ر.س <small style="color:white; font-size:12px;">/ شهر</small></span>
             </div>
         </a>
     </div>
 
-    <div class="snack-premium">
-        <h2 style="text-align:center; color:var(--gold); margin-bottom:50px;">سناكات الـ VIP الطازجة 🍓</h2>
-        <div class="steps" style="padding:0">
-            <div class="step-item">
-                <img src="https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=200" style="width:120px; height:120px; border-radius:50%; margin-bottom:15px; border:2px solid var(--gold);">
-                <h4>توت بري عضوي</h4>
-            </div>
-            <div class="step-item">
-                <img src="https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?w=200" style="width:120px; height:120px; border-radius:50%; margin-bottom:15px; border:2px solid var(--gold);">
-                <h4>مكسرات فاخرة</h4>
-            </div>
-            <div class="step-item">
-                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200" style="width:120px; height:120px; border-radius:50%; margin-bottom:15px; border:2px solid var(--gold);">
-                <h4>آيس كريم بروتين</h4>
-            </div>
+    <div class="snack-section">
+        <h2 style="color:var(--gold)">سناكات النخبة 🍎</h2>
+        <div class="snack-grid">
+            <div class="snack-box"><img src="https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=200"><p>توت عضوي</p></div>
+            <div class="snack-box"><img src="https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?w=200"><p>مكسرات VIP</p></div>
+            <div class="snack-box"><img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=200"><p>زبادي بالفواكه</p></div>
+            <div class="snack-box"><img src="https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200"><p>عصائر طبيعية</p></div>
         </div>
     </div>
 
     <footer>
-        <h2 style="color:var(--gold)">FIT FUEL SAUDI ARABIA</h2>
-        <p>الرقم الموحد للنخبة: 0563683212</p>
-        <div style="margin-top:40px; color:#444; font-size:12px;">تطوير وتصميم Fit Fuel Elite © 2026</div>
+        <h2 style="color:var(--gold)">FIT FUEL SAUDI ARABIA 🇸🇦</h2>
+        <p>خدمة النخبة: 0563683212</p>
+        <p style="opacity: 0.4; font-size: 12px; margin-top: 30px;">© 2026 Fit Fuel Elite - جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
@@ -286,15 +230,14 @@
             const h = document.getElementById('h').value;
             const a = document.getElementById('a').value;
             const g = document.getElementById('g').value;
-            const res = document.getElementById('result-box');
+            const res = document.getElementById('res');
 
             if(w && h && a) {
                 let bmr = (g === 'm') ? (10 * w + 6.25 * h - 5 * a + 5) : (10 * w + 6.25 * h - 5 * a - 161);
                 res.style.display = "block";
-                res.innerHTML = "تحليل النظام: جسمك يحتاج " + Math.round(bmr) + " سعرة للوصول للمثالية.";
-                window.scrollTo({ top: 200, behavior: 'smooth' });
+                res.innerHTML = "تحليل الجسم: تحتاج " + Math.round(bmr) + " سعرة حرارية يومياً.";
             } else {
-                alert("نعتذر، يرجى إدخال كافة البيانات لإتمام التحليل.");
+                alert("يرجى إدخال كافة البيانات");
             }
         }
     </script>
