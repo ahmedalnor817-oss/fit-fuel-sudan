@@ -3,189 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | تجربة كالو</title>
+    <title>Fit Fuel Elite | تجربة كالو المتكاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-gold: #d4af37; --bg-gray: #f8f9fa; --dark-text: #1a1a1a; --card-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        :root { --brand: #d4af37; --bg: #f4f7f6; --text: #2d3436; --white: #ffffff; }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background-color: var(--bg-gray); color: var(--dark-text); }
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-        /* الشاشة الافتتاحية (كالو ستايل) */
+        /* شاشة التخصيص (Onboarding) */
         #onboarding {
-            position: fixed; inset: 0; background: #fff; z-index: 3000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+            position: fixed; inset: 0; background: var(--white); z-index: 5000;
+            display: flex; flex-direction: column; padding: 40px 10%;
         }
-        .onboard-card { text-align: center; max-width: 400px; }
-        .onboard-card h1 { font-size: 2rem; color: var(--main-gold); margin-bottom: 10px; }
-        .btn-start { background: var(--dark-text); color: #fff; padding: 15px 60px; border-radius: 15px; border: none; font-weight: 700; cursor: pointer; width: 100%; font-size: 1.1rem; }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.5s ease; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-next { background: var(--brand); color: #000; width: 100%; padding: 18px; border-radius: 15px; border: none; font-weight: 900; cursor: pointer; margin-top: 20px; font-size: 1.1rem; }
 
         /* الواجهة الرئيسية */
         header {
-            background: #fff; padding: 15px 5%; display: flex; justify-content: space-between;
-            align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #eee;
+            background: var(--white); padding: 15px 5%; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05); border-bottom: 1px solid #eee;
         }
-        .user-stats { background: #f0f0f0; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 700; }
-
-        .container { padding: 20px 5%; max-width: 1200px; margin: 0 auto; }
-
-        /* عرض المنيو اليومي */
-        .day-selector { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0 20px; scrollbar-width: none; }
-        .day-item { 
-            min-width: 60px; padding: 10px; background: #fff; border-radius: 15px; 
-            text-align: center; border: 1px solid #eee; cursor: pointer;
-        }
-        .day-item.active { background: var(--main-gold); border-color: var(--main-gold); color: #fff; }
-
-        /* بطاقات الوجبات (Calo Design) */
-        .meal-card {
-            background: #fff; border-radius: 25px; overflow: hidden; margin-bottom: 25px;
-            box-shadow: var(--card-shadow); border: 1px solid #f0f0f0; position: relative;
-        }
-        .meal-img { width: 100%; height: 250px; object-fit: cover; }
-        .meal-info { padding: 20px; }
-        .meal-tags { display: flex; gap: 8px; margin-bottom: 10px; }
-        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 8px; background: #fef9e7; color: #b7950b; font-weight: 700; }
         
-        .meal-macros { 
-            display: flex; justify-content: space-between; border-top: 1px solid #f5f5f5; 
-            padding-top: 15px; margin-top: 15px; font-size: 0.85rem; color: #666;
+        /* شريط الماكروز الذكي */
+        .macro-tracker {
+            display: flex; justify-content: space-around; background: #2d3436; color: #fff;
+            padding: 12px; border-radius: 15px; margin: 15px 5%; font-size: 0.8rem;
         }
-        .macro-val { font-weight: 900; color: var(--dark-text); display: block; font-size: 1rem; }
+        .macro-item span { display: block; color: var(--brand); font-weight: 900; font-size: 1rem; }
 
-        .select-btn {
-            position: absolute; top: 15px; left: 15px; background: #fff;
-            width: 40px; height: 40px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: pointer; font-size: 1.2rem;
+        /* المنيو */
+        .container { padding: 0 5% 120px; }
+        .section-title { font-weight: 900; font-size: 1.4rem; margin: 25px 0 15px; }
+
+        .meal-card {
+            background: var(--white); border-radius: 25px; margin-bottom: 20px;
+            overflow: hidden; border: 1px solid #eee; position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
         }
-        .select-btn.checked { background: #27ae60; color: #fff; }
+        .meal-img { width: 100%; height: 200px; object-fit: cover; }
+        .meal-body { padding: 20px; }
+        .badge { background: #fdf2d2; color: #996e00; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; margin-left: 5px; }
 
-        /* شريط الطلب السفلي المستوحى من كالو */
-        .bottom-checkout {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #fff;
-            padding: 20px 5%; border-top: 1px solid #eee; display: flex;
+        .price-tag { font-weight: 900; color: var(--brand); font-size: 1.2rem; }
+        
+        /* شريط الخيارات (الحساسية) */
+        .allergy-chips { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; margin-bottom: 10px; }
+        .chip { padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+        .chip.selected { background: #e74c3c; color: #fff; border-color: #e74c3c; }
+
+        .add-btn {
+            position: absolute; top: 15px; left: 15px; background: var(--brand);
+            width: 45px; height: 45px; border-radius: 15px; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; color: #000; font-weight: 900;
+        }
+
+        /* شريط الواتساب السفلي */
+        .floating-footer {
+            position: fixed; bottom: 0; width: 100%; background: var(--white);
+            padding: 20px 8%; border-top: 1px solid #eee; display: flex;
             justify-content: space-between; align-items: center; z-index: 2000;
         }
-        .price-box { font-size: 0.8rem; color: #888; }
-        .total-price { display: block; font-size: 1.4rem; font-weight: 900; color: var(--dark-text); }
-        .confirm-btn { background: var(--main-gold); color: #000; padding: 15px 40px; border-radius: 18px; font-weight: 900; border: none; cursor: pointer; }
-
-        /* الحاسبة المنبثقة */
-        #calc-popup {
-            position: fixed; bottom: -100%; left: 0; width: 100%; height: 80vh;
-            background: #fff; border-radius: 30px 30px 0 0; z-index: 4000;
-            padding: 40px 10%; transition: 0.5s ease-out; box-shadow: 0 -20px 40px rgba(0,0,0,0.1);
-        }
-        #calc-popup.show { bottom: 0; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 1rem; }
     </style>
 </head>
 <body>
 
     <div id="onboarding">
-        <div class="onboard-card">
-            <h1>FIT<span>FUEL</span></h1>
-            <p>أهلاً بك في عالم التغذية الذكية. دعنا نصمم منيو يناسب أهدافك.</p>
-            <button class="btn-start" onclick="showCalc()">ابدأ الآن</button>
+        <div class="step active" id="step1">
+            <h1 style="font-size: 2.5rem; color: var(--brand);">FIT<span>FUEL</span></h1>
+            <h2>ما هو هدفك الصحي؟</h2>
+            <div class="btn-next" onclick="nextStep(2)">خسارة وزن 📉</div>
+            <div class="btn-next" onclick="nextStep(2)">بناء عضلات 💪</div>
+            <div class="btn-next" onclick="nextStep(2)">نمط حياة صحي ✨</div>
         </div>
-    </div>
 
-    <div id="calc-popup">
-        <h2>أخبرنا عنك 🥗</h2>
-        <input type="number" id="weight" placeholder="الوزن الحالي (كجم)">
-        <input type="number" id="height" placeholder="الطول (سم)">
-        <p style="font-size: 0.9rem; color: #666;">سنقوم بحساب احتياجك واقتراح أفضل الوجبات لك.</p>
-        <button class="btn-start" style="background: var(--main-gold); color: #000;" onclick="finishOnboarding()">عرض المنيو الخاص بي</button>
+        <div class="step" id="step2">
+            <h2>هل تعاني من حساسية؟</h2>
+            <p>اختر المكونات التي تود استبعادها:</p>
+            <div class="allergy-chips">
+                <div class="chip" onclick="this.classList.toggle('selected')">المكسرات</div>
+                <div class="chip" onclick="this.classList.toggle('selected')">اللاكتوز</div>
+                <div class="chip" onclick="this.classList.toggle('selected')">الغلوتين</div>
+                <div class="chip" onclick="this.classList.toggle('selected')">البيض</div>
+            </div>
+            <button class="btn-next" onclick="finishOnboarding()">عرض المنيو المخصص لي</button>
+        </div>
     </div>
 
     <header>
-        <div style="font-weight: 900; font-size: 1.2rem;">استكشف المنيو</div>
-        <div class="user-stats" id="userCals">2400 سعرة</div>
+        <div style="font-weight: 900; font-size: 1.1rem;">أهلاً بك، تم تخصيص المنيو لـ هدفك</div>
     </header>
 
-    <div class="container">
-        <div class="day-selector">
-            <div class="day-item active">السبت</div>
-            <div class="day-item">الأحد</div>
-            <div class="day-item">الاثنين</div>
-            <div class="day-item">الثلاثاء</div>
-            <div class="day-item">الأربعاء</div>
-        </div>
-
-        <div id="mealsGrid">
-            </div>
+    <div class="macro-tracker">
+        <div class="macro-item">السعرات<span id="totalCals">0</span></div>
+        <div class="macro-item">بروتين<span id="totalProt">0g</span></div>
+        <div class="macro-item">كارب<span id="totalCarb">0g</span></div>
     </div>
 
-    <div class="bottom-checkout" id="checkout">
-        <div class="price-box">
-            السعر التقريبي
-            <span class="total-price" id="totalPrice">0 ريال</span>
+    <div class="container">
+        <div class="section-title">الأكثر طلباً 🔥</div>
+        <div id="mealsContainer"></div>
+        
+        <div class="section-title">السلطات والمقبلات 🥗</div>
+        <div id="saladsContainer"></div>
+    </div>
+
+    <div class="floating-footer">
+        <div>
+            <div style="font-size: 0.8rem; color: #888;">الإجمالي التقديري</div>
+            <div style="font-size: 1.5rem; font-weight: 900;" id="finalPrice">0 ريال</div>
         </div>
-        <button class="confirm-btn" onclick="sendToWhatsApp()">اشترك الآن</button>
+        <button class="btn-next" style="width: auto; margin: 0; padding: 15px 40px;" onclick="orderNow()">اشترك الآن</button>
     </div>
 
     <script>
         const meals = [
-            { name: "سلمون مع أرز بري", cals: 450, protein: "35g", carbs: "40g", fat: "12g", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500", price: 65 },
-            { name: "دجاج بيري بيري", cals: 380, protein: "42g", carbs: "30g", fat: "8g", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", price: 55 },
-            { name: "سلطة كينوا مكسيكية", cals: 290, protein: "12g", carbs: "45g", fat: "10g", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500", price: 40 },
-            { name: "ستيك بصلصة المشروم", cals: 520, protein: "45g", carbs: "20g", fat: "25g", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", price: 85 }
+            { id: 1, type: 'main', name: "سلمون نرويجي مع أرز ليمون", cals: 420, prot: 38, carb: 35, price: 65, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" },
+            { id: 2, type: 'main', name: "صدور دجاج بالكريمة الخفيفة", cals: 380, prot: 45, carb: 20, price: 55, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
+            { id: 3, type: 'salad', name: "سلطة التونة والذرة", cals: 250, prot: 25, carb: 15, price: 40, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" },
+            { id: 4, type: 'salad', name: "سلطة فاصوليا حمراء", cals: 180, prot: 8, carb: 30, price: 35, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500" }
         ];
 
-        let selected = new Set();
-        let total = 0;
+        let cart = [];
 
-        function showCalc() {
-            document.getElementById('calc-popup').classList.add('show');
+        function nextStep(n) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
         }
 
         function finishOnboarding() {
-            const w = document.getElementById('weight').value;
-            if(!w) return alert("فضلاً أدخل وزنك");
             document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('calc-popup').classList.remove('show');
-            renderMeals();
+            render();
         }
 
-        function renderMeals() {
-            const grid = document.getElementById('mealsGrid');
-            grid.innerHTML = meals.map(m => `
-                <div class="meal-card">
-                    <div class="select-btn ${selected.has(m.name) ? 'checked' : ''}" onclick="toggleMeal('${m.name}', ${m.price})">
-                        ${selected.has(m.name) ? '✓' : '+'}
-                    </div>
-                    <img src="${m.img}" class="meal-img">
-                    <div class="meal-info">
-                        <div class="meal-tags"><span class="tag">عالي البروتين</span><span class="tag">صحي</span></div>
-                        <h3 style="margin:0;">${m.name}</h3>
-                        <div class="meal-macros">
-                            <div><span class="macro-val">${m.cals}</span>سعرة</div>
-                            <div><span class="macro-val">${m.protein}</span>بروتين</div>
-                            <div><span class="macro-val">${m.carbs}</span>كارب</div>
-                            <div><span class="macro-val">${m.fat}</span>دهون</div>
+        function render() {
+            const mainCont = document.getElementById('mealsContainer');
+            const saladCont = document.getElementById('saladsContainer');
+            mainCont.innerHTML = ''; saladCont.innerHTML = '';
+
+            meals.forEach(m => {
+                const html = `
+                    <div class="meal-card">
+                        <div class="add-btn" onclick="addToCart(${m.id})">${cart.includes(m.id) ? '✓' : '+'}</div>
+                        <img src="${m.img}" class="meal-img">
+                        <div class="meal-body">
+                            <span class="badge">مناسب لهدفك</span>
+                            <h3 style="margin: 10px 0;">${m.name}</h3>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="font-size: 0.85rem; color: #666;">${m.cals} سعرة | ${m.prot}g بروتين</div>
+                                <div class="price-tag">${m.price} ريال</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+                if(m.type === 'main') mainCont.innerHTML += html;
+                else saladCont.innerHTML += html;
+            });
+            updateMacros();
         }
 
-        function toggleMeal(name, price) {
-            if(selected.has(name)) {
-                selected.delete(name);
-                total -= price;
-            } else {
-                selected.add(name);
-                total += price;
-            }
-            document.getElementById('totalPrice').innerText = total + " ريال";
-            renderMeals();
+        function addToCart(id) {
+            if(cart.includes(id)) cart = cart.filter(itemId => itemId !== id);
+            else cart.push(id);
+            render();
         }
 
-        function sendToWhatsApp() {
-            if(selected.size === 0) return alert("اختر وجبة واحدة على الأقل");
-            const list = Array.from(selected).join('%0A- ');
-            const msg = `مرحباً، أود الاشتراك بوجباتي المختارة:%0A- ${list}%0Aالإجمالي: ${total} ريال`;
+        function updateMacros() {
+            let cals = 0, prot = 0, carb = 0, price = 0;
+            meals.forEach(m => {
+                if(cart.includes(m.id)) {
+                    cals += m.cals; prot += m.prot; carb += m.carb; price += m.price;
+                }
+            });
+            document.getElementById('totalCals').innerText = cals;
+            document.getElementById('totalProt').innerText = prot + 'g';
+            document.getElementById('totalCarb').innerText = carb + 'g';
+            document.getElementById('finalPrice').innerText = price + ' ريال';
+        }
+
+        function orderNow() {
+            if(cart.length === 0) return alert("اختر وجباتك لبدء الاشتراك");
+            const names = meals.filter(m => cart.includes(m.id)).map(m => m.name);
+            const msg = `مرحباً Fit Fuel، أود الاشتراك في المنيو المخصص:%0A- ${names.join('%0A- ')}%0Aالإجمالي: ${document.getElementById('finalPrice').innerText}`;
             window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
         }
     </script>
