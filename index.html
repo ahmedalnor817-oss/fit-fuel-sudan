@@ -3,136 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | التجربة الكاملة</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <title>Fit Fuel Elite | تجربة النخبة</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --black: #050505; --white: #ffffff; }
-        * { box-sizing: border-box; transition: all 0.3s ease; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--black); color: var(--white); overflow-x: hidden; }
+        :root { --gold: #d4af37; --black: #050505; --card-bg: rgba(25, 25, 25, 0.7); --white: #ffffff; }
+        
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background-color: var(--black); color: var(--white); overflow-x: hidden; }
 
-        /* حاسبة السعرات الجانبية */
-        #side-calc {
-            position: fixed; left: -320px; top: 15%; width: 300px;
-            background: rgba(15, 15, 15, 0.95); border: 1px solid var(--gold);
-            border-radius: 0 30px 30px 0; padding: 25px; z-index: 2000;
-            backdrop-filter: blur(15px);
+        /* شريط علوي شفاف وفخم */
+        header {
+            padding: 20px 8%; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
         }
-        #side-calc.open { left: 0; }
-        .calc-toggle {
-            position: absolute; right: -55px; top: 20px; background: var(--gold);
-            width: 55px; height: 55px; border-radius: 0 15px 15px 0;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 24px; color: black;
-        }
+        .logo { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
 
-        /* قسم الهيرو (الفيديو) */
-        .hero-section {
-            position: relative; height: 75vh; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; text-align: center;
+        /* هيرو سينمائي مع فيديو وخلفية متحركة */
+        .hero {
+            height: 100vh; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
         #hero-video {
             position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
-            transform: translate(-50%, -50%); z-index: -1; filter: brightness(0.4);
+            transform: translate(-50%, -50%); z-index: -2; filter: brightness(0.4) contrast(1.1);
+        }
+        .hero::after {
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(to bottom, transparent 60%, var(--black)); z-index: -1;
         }
 
-        /* شبكة الباقات */
-        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 80px 8%; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; margin: 0; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: 1.5rem; opacity: 0.8; margin-top: 10px; }
+
+        /* حاسبة السعرات الجانبية (الموديل المطور) */
+        #side-calc {
+            position: fixed; left: -320px; top: 100px; width: 300px;
+            background: var(--card-bg); border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 0 40px 40px 0; padding: 30px; z-index: 2000;
+            backdrop-filter: blur(25px); box-shadow: 15px 0 40px rgba(0,0,0,0.6);
+        }
+        #side-calc.open { left: 0; }
+        .calc-toggle {
+            position: absolute; right: -60px; top: 20px; background: var(--gold);
+            width: 60px; height: 60px; border-radius: 0 20px 20px 0;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 26px; box-shadow: 10px 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* شبكة الباقات بتصميم "البريميوم" */
+        .plans-container { padding: 100px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
         .plan-card {
-            height: 450px; border-radius: 40px; overflow: hidden; position: relative;
-            cursor: pointer; border: 1px solid #222;
+            height: 550px; border-radius: 50px; position: relative; overflow: hidden;
+            cursor: pointer; border: 1px solid #1a1a1a; background-color: #111;
         }
-        .plan-card img { width: 100%; height: 100%; object-fit: cover; }
-        .plan-overlay {
-            position: absolute; inset: 0; background: linear-gradient(to top, black, transparent);
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 35px;
+        .plan-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .plan-card:hover img { transform: scale(1.1); opacity: 0.4; }
+        .plan-content {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            justify-content: flex-end; padding: 45px; z-index: 2;
         }
+        .plan-content h2 { font-size: 2.2rem; margin: 0; }
+        .plan-price { font-size: 1.5rem; color: var(--gold); font-weight: 900; margin-top: 10px; }
 
-        /* النافذة المنبثقة (المودال) */
+        /* المودال الاحترافي (المنيو) */
         .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
             display: none; justify-content: center; align-items: center; z-index: 3000;
         }
-        .modal-content {
-            background: #111; width: 90%; max-width: 550px; height: 80vh;
-            border-radius: 35px; padding: 30px; border: 1px solid #333; overflow-y: auto;
+        .modal-inner {
+            background: #0a0a0a; width: 95%; max-width: 600px; height: 85vh;
+            border-radius: 40px; border: 1px solid #333; padding: 40px;
+            position: relative; overflow-y: auto;
         }
         .meal-item {
-            display: flex; align-items: center; background: #1a1a1a; padding: 15px;
-            border-radius: 20px; margin-bottom: 12px; cursor: pointer;
+            display: flex; align-items: center; background: #151515; padding: 15px;
+            border-radius: 25px; margin-bottom: 15px; cursor: pointer; border: 1px solid transparent;
         }
-        .meal-item img { width: 60px; height: 60px; border-radius: 12px; margin-left: 15px; }
-        .close-btn { float: left; font-size: 30px; cursor: pointer; color: var(--gold); }
-
-        .btn-order {
-            width: 100%; background: var(--gold); color: black; padding: 18px;
-            border-radius: 20px; font-weight: 900; border: none; cursor: pointer; margin-top: 20px;
+        .meal-item:hover { border-color: var(--gold); transform: translateX(-10px); }
+        .meal-img { width: 75px; height: 75px; border-radius: 20px; object-fit: cover; margin-left: 20px; }
+        
+        .btn-wa {
+            width: 100%; background: var(--gold); color: black; padding: 20px;
+            border-radius: 20px; font-weight: 900; font-size: 18px; border: none;
+            cursor: pointer; margin-top: 20px; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
         }
 
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; background: #000; border: 1px solid #333; color: #fff; }
+        input { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 15px; background: #000; border: 1px solid #222; color: #fff; }
+        footer { padding: 60px; text-align: center; opacity: 0.4; font-size: 14px; }
     </style>
 </head>
 <body>
 
+    <header>
+        <div class="logo">FIT<span>FUEL</span> ELITE</div>
+        <div style="font-weight: 700; color: var(--gold);">0563683212</div>
+    </header>
+
     <div id="side-calc">
         <div class="calc-toggle" onclick="toggleCalc()">⚖️</div>
-        <h3 style="color:var(--gold);">حاسبة النخبة 🧬</h3>
+        <h2 style="color:var(--gold); margin-top:0;">حاسبة النخبة 🧬</h2>
         <input type="number" id="w" placeholder="الوزن (كجم)">
         <input type="number" id="h" placeholder="الطول (سم)">
-        <button onclick="calculateBMR()" style="width:100%; background:var(--gold); border:none; padding:10px; border-radius:10px; cursor:pointer; font-weight:bold;">احسب</button>
-        <div id="bmr-res" style="margin-top:15px; color:var(--gold); font-size:14px;"></div>
+        <button onclick="calculateBMI()" class="btn-wa" style="padding: 12px; margin-top: 5px;">تحليل الجسم</button>
+        <div id="res" style="margin-top: 20px; color: var(--gold); font-weight: 700;"></div>
     </div>
 
-    <section class="hero-section">
+    <section class="hero">
         <video autoplay muted loop playsinline id="hero-video">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-frying-diced-meat-in-a-pan-close-up-43158-large.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-chef-preparing-a-salad-close-up-43153-large.mp4" type="video/mp4">
         </video>
-        <div>
-            <h1 style="font-size: 4rem; margin:0;">FIT <span style="color:var(--gold);">FUEL</span></h1>
-            <p>الوجبات الأكثر فخامة في المملكة</p>
-        </div>
+        <h1>نصمم <span>جسمك</span></h1>
+        <p>باقات غذائية حصرية بمعايير سعودية عالمية</p>
     </section>
 
-    <div class="plans-grid">
+    <div class="plans-container">
         <div class="plan-card" onclick="openMenu('باقة دايت كير')">
-            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600">
-            <div class="plan-overlay"><h2>دايت كير</h2><p>2,350 ريال</p></div>
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800">
+            <div class="plan-content">
+                <h2>دايت كير</h2>
+                <div class="plan-price">2,350 ريال</div>
+            </div>
         </div>
         <div class="plan-card" onclick="openMenu('باقة الرشاقة')">
-            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600">
-            <div class="plan-overlay"><h2>الرشاقة الذهبية</h2><p>2,500 ريال</p></div>
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800">
+            <div class="plan-content">
+                <h2>الرشاقة الذهبية</h2>
+                <div class="plan-price">2,500 ريال</div>
+            </div>
+        </div>
+        <div class="plan-card" onclick="openMenu('باقة الضخامة')">
+            <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=800">
+            <div class="plan-content">
+                <h2>الضخامة والأداء</h2>
+                <div class="plan-price">3,200 ريال</div>
+            </div>
         </div>
     </div>
 
     <div class="modal" id="menuModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeMenu()">&times;</span>
-            <h2 id="planTitle" style="color:var(--gold);">المنيو</h2>
-            <div id="mealsList"></div>
-            <button class="btn-order" onclick="sendToWhatsApp()">تأكيد الطلب عبر واتساب</button>
+        <div class="modal-inner">
+            <span onclick="closeMenu()" style="float: left; cursor: pointer; font-size: 35px; color: var(--gold);">&times;</span>
+            <h2 id="pTitle" style="color: var(--gold); margin-top: 0;">اختر منيو الأسبوع</h2>
+            <div id="mList"></div>
+            <button class="btn-wa" onclick="sendWA()">تأكيد وإرسال للواتساب</button>
         </div>
     </div>
 
+    <footer>© 2026 Fit Fuel Elite Saudi Arabia</footer>
+
     <script>
         const meals = [
-            { name: "سلمون مشوي", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=100" },
-            { name: "دجاج بالأعشاب", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=100" },
-            { name: "ستيك أنجوس", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=100" }
+            { name: "سلمون نرويجي فاخر", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=150" },
+            { name: "صدور دجاج بالأعشاب", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=150" },
+            { name: "ستيك أنجوس مشوي", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=150" },
+            { name: "روبيان جامبو دايت", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=150" }
         ];
 
-        let currentPlan = "";
+        let selectedPlan = "";
 
         function toggleCalc() { document.getElementById('side-calc').classList.toggle('open'); }
 
-        function openMenu(name) {
-            currentPlan = name;
-            document.getElementById('planTitle').innerText = name;
-            const list = document.getElementById('mealsList');
-            list.innerHTML = meals.map((m, i) => `
-                <div class="meal-item" onclick="document.getElementById('m-${i}').checked = !document.getElementById('m-${i}').checked">
-                    <img src="${m.img}">
+        function calculateBMI() {
+            const w = document.getElementById('w').value;
+            const h = document.getElementById('h').value;
+            if(w && h) {
+                let bmi = (w / ((h/100)*(h/100))).toFixed(1);
+                document.getElementById('res').innerText = `مؤشر كتلة جسمك: ${bmi}`;
+            }
+        }
+
+        function openMenu(plan) {
+            selectedPlan = plan;
+            document.getElementById('pTitle').innerText = plan;
+            const container = document.getElementById('mList');
+            container.innerHTML = meals.map((m, i) => `
+                <div class="meal-item" onclick="document.getElementById('chk${i}').checked = !document.getElementById('chk${i}').checked">
+                    <img src="${m.img}" class="meal-img">
                     <h4 style="flex-grow:1; margin:0;">${m.name}</h4>
-                    <input type="checkbox" id="m-${i}" value="${m.name}" style="width:20px;">
+                    <input type="checkbox" id="chk${i}" value="${m.name}" style="width:25px; height:25px; accent-color:var(--gold);">
                 </div>
             `).join('');
             document.getElementById('menuModal').style.display = 'flex';
@@ -140,25 +190,18 @@
 
         function closeMenu() { document.getElementById('menuModal').style.display = 'none'; }
 
-        function calculateBMR() {
-            const w = document.getElementById('w').value;
-            const h = document.getElementById('h').value;
-            if(w && h) {
-                let bmi = (w / ((h/100) * (h/100))).toFixed(1);
-                document.getElementById('bmr-res').innerText = `كتلة جسمك: ${bmi}`;
+        function sendWA() {
+            const items = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(el => el.value);
+            if(items.length === 0) return alert("اختر وجبة واحدة على الأقل");
+            const text = `مرحباً، أود الاشتراك في *${selectedPlan}*%0Aالوجبات المختارة:%0A- ${items.join('%0A- ')}`;
+            window.open(`https://wa.me/966563683212?text=${text}`, '_blank');
+        }
+
+        window.onclick = function(e) { 
+            if(e.target == document.getElementById('menuModal')) closeMenu();
+            if(!document.getElementById('side-calc').contains(e.target) && !e.target.classList.contains('calc-toggle')) {
+                document.getElementById('side-calc').classList.remove('open');
             }
-        }
-
-        function sendToWhatsApp() {
-            const selected = Array.from(document.querySelectorAll('input:checked')).map(el => el.value);
-            if(selected.length === 0) return alert("اختر وجبة");
-            const msg = `طلب اشتراك: *${currentPlan}*%0Aالمنيو: ${selected.join(', ')}`;
-            window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
-        }
-
-        // إغلاق المودال عند الضغط خارجه
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('menuModal')) closeMenu();
         }
     </script>
 </body>
