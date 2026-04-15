@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | تجربة اختيار الوجبات</title>
+    <title>Fit Fuel Elite | تجربة النخبة</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,12 +20,30 @@
         }
 
         header {
-            padding: 20px 8%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; display: flex; justify-content: space-between; align-items: center;
             background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(15px);
             position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #1a1a1a;
         }
 
         .logo { font-size: 24px; font-weight: 900; color: var(--gold); }
+
+        /* قسم الهيرو الجديد بالصورة المرفقة */
+        .hero-section {
+            height: 70vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--black)), 
+                        url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200'); /* هنا يتم وضع صورتك المرفقة */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+        }
+
+        .hero-section h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 10px; }
+        .hero-section span { color: var(--gold); }
 
         /* البطاقات الرئيسية */
         .plans-container {
@@ -34,7 +52,7 @@
         }
 
         .plan-card {
-            height: 380px; border-radius: 35px; position: relative; overflow: hidden;
+            height: 350px; border-radius: 30px; position: relative; overflow: hidden;
             cursor: pointer; transition: 0.4s; border: 1px solid #222;
             display: flex; align-items: flex-end; background-size: cover; background-position: center;
         }
@@ -45,9 +63,9 @@
         }
 
         .plan-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-        .plan-info { position: relative; z-index: 2; padding: 30px; width: 100%; }
+        .plan-info { position: relative; z-index: 2; padding: 25px; width: 100%; }
 
-        /* النافذة المنبثقة (Modal) */
+        /* Modal Styles */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); display: none;
@@ -55,76 +73,62 @@
         }
 
         .modal-content {
-            background: var(--card-bg); width: 95%; max-width: 550px;
-            max-height: 85vh; border-radius: 35px; padding: 30px;
+            background: var(--card-bg); width: 90%; max-width: 500px;
+            max-height: 80vh; border-radius: 30px; padding: 25px;
             position: relative; overflow-y: auto; border: 1px solid #333;
         }
 
-        .close-modal { position: absolute; top: 15px; left: 20px; font-size: 35px; color: var(--gold); cursor: pointer; }
+        .close-modal { position: absolute; top: 15px; left: 20px; font-size: 30px; color: var(--gold); cursor: pointer; }
 
-        .meals-list { margin-top: 25px; }
-        
         .meal-item {
             display: flex; align-items: center; background: #1a1a1a;
-            padding: 12px; margin-bottom: 12px; border-radius: 20px;
-            transition: 0.3s; cursor: pointer; border: 1px solid transparent;
+            padding: 10px; margin-bottom: 12px; border-radius: 18px;
+            cursor: pointer; border: 1px solid transparent; transition: 0.3s;
         }
 
-        .meal-item:hover { border-color: var(--gold); background: #222; }
-
-        .meal-img {
-            width: 70px; height: 70px; border-radius: 15px;
-            object-fit: cover; margin-left: 15px; border: 1px solid #333;
-        }
-
+        .meal-item:hover { border-color: var(--gold); }
+        .meal-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; margin-left: 15px; }
         .meal-text { flex-grow: 1; }
-        .meal-text h4 { margin: 0; font-size: 15px; }
-        .meal-text p { margin: 0; font-size: 12px; color: #888; }
+        .meal-text h4 { margin: 0; font-size: 14px; }
+        .meal-item input { accent-color: var(--gold); width: 18px; height: 18px; }
 
-        .meal-item input { accent-color: var(--gold); width: 20px; height: 20px; }
-        
         .btn-confirm {
-            width: 100%; background: var(--gold); color: black; padding: 16px;
-            border-radius: 18px; border: none; font-weight: 900;
-            margin-top: 20px; cursor: pointer; font-size: 16px;
+            width: 100%; background: var(--gold); color: black; padding: 14px;
+            border-radius: 15px; border: none; font-weight: 900; margin-top: 15px; cursor: pointer;
         }
 
-        footer { padding: 40px; text-align: center; opacity: 0.5; font-size: 12px; }
+        footer { padding: 30px; text-align: center; opacity: 0.4; font-size: 11px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">FIT<span>FUEL</span> ELITE</div>
-        <div style="color: var(--gold); font-weight: bold; font-size: 14px;">0563683212</div>
+        <div style="color:var(--gold); font-size: 13px;">0563683212</div>
     </header>
 
-    <div style="text-align:center; padding: 40px 8% 10px;">
-        <h1 style="font-size: 1.8rem;">اختر باقتك وحدد <span>وجباتك المفضلة</span></h1>
-        <p style="color:#888;">سيتم إرسال اختياراتك مباشرة للواتساب</p>
-    </div>
+    <section class="hero-section">
+        <h1>صمم <span>جسمك</span> بذكاء</h1>
+        <p>اختر باقتك وحدد وجباتك المفضلة من المنيو الفاخر</p>
+    </section>
 
     <div class="plans-container">
-        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600');" onclick="openMenu('دايت كير (التوازن)')">
-            <div class="plan-info"><h3>باقة دايت كير</h3><p>2,350 ريال</p></div>
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600');" onclick="openMenu('باقة دايت كير')">
+            <div class="plan-info"><h3>باقة دايت كير</h3><p>التوازن المثالي للصحة</p></div>
         </div>
-        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600');" onclick="openMenu('الرشاقة الذهبية')">
-            <div class="plan-info"><h3>باقة الرشاقة</h3><p>2,500 ريال</p></div>
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600');" onclick="openMenu('باقة الرشاقة')">
+            <div class="plan-info"><h3>باقة الرشاقة</h3><p>لحرق الدهون بذكاء</p></div>
         </div>
-        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600');" onclick="openMenu('الضخامة والأداء')">
-            <div class="plan-info"><h3>باقة الضخامة</h3><p>3,200 ريال</p></div>
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600');" onclick="openMenu('باقة الضخامة')">
+            <div class="plan-info"><h3>باقة الضخامة</h3><p>للأداء العضلي الأقصى</p></div>
         </div>
     </div>
 
     <div class="modal" id="menuModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeMenu()">&times;</span>
-            <h2 id="selectedPlanTitle" style="color:var(--gold); margin-bottom: 5px;">الباقة</h2>
-            <p style="font-size: 14px; color:#888;">اختر الأصناف التي ترغب بتجربتها:</p>
-            
-            <div class="meals-list" id="mealsContainer">
-                </div>
-
+            <h2 id="planTitle" style="color:var(--gold);">قائمة الوجبات</h2>
+            <div id="mealsList"></div>
             <button class="btn-confirm" onclick="sendToWhatsApp()">إرسال الطلب عبر الواتساب</button>
         </div>
     </div>
@@ -133,57 +137,36 @@
 
     <script>
         let currentPlan = "";
-        
-        // قائمة الأطباق مع صور وصفية
-        const mealsData = [
-            { name: "سلمون مشوي نرويجي", desc: "مع الأرز البني والهليون", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200" },
-            { name: "ستيك لحم بصلصة الفلفل", desc: "لحم بقري قليل الدسم مشوي", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=200" },
-            { name: "دجاج بيري بيري", desc: "صدور دجاج متبلة مشوية", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" },
-            { name: "مكرونة فوسيلي بالدجاج", desc: "بصلصة الطماطم الطازجة", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=200" },
-            { name: "سلطة الكينوا الملكية", desc: "مع الفواكه المجففة والمكسرات", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200" }
+        const meals = [
+            { name: "سلمون مشوي نرويجي", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=100" },
+            { name: "صدور دجاج بالأعشاب", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=100" },
+            { name: "ستيك لحم بصلصة المشروم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=100" },
+            { name: "سلطة كينوا بالأفوكادو", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=100" },
+            { name: "جمبري مشوي دايت", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=100" }
         ];
 
-        function openMenu(planName) {
-            currentPlan = planName;
-            document.getElementById('selectedPlanTitle').innerText = planName;
-            const container = document.getElementById('mealsContainer');
-            container.innerHTML = "";
-            
-            mealsData.forEach((meal, index) => {
-                container.innerHTML += `
-                    <div class="meal-item" onclick="toggleCheckbox(${index})">
-                        <img src="${meal.img}" class="meal-img">
-                        <div class="meal-text">
-                            <h4>${meal.name}</h4>
-                            <p>${meal.desc}</p>
-                        </div>
-                        <input type="checkbox" id="meal-${index}" value="${meal.name}">
-                    </div>
-                `;
-            });
-            
+        function openMenu(name) {
+            currentPlan = name;
+            document.getElementById('planTitle').innerText = name;
+            const container = document.getElementById('mealsList');
+            container.innerHTML = meals.map((m, i) => `
+                <div class="meal-item" onclick="document.getElementById('m-${i}').checked = !document.getElementById('m-${i}').checked">
+                    <img src="${m.img}" class="meal-img">
+                    <div class="meal-text"><h4>${m.name}</h4></div>
+                    <input type="checkbox" id="m-${i}" value="${m.name}">
+                </div>
+            `).join('');
             document.getElementById('menuModal').style.display = 'flex';
-        }
-
-        function toggleCheckbox(index) {
-            const cb = document.getElementById(`meal-${index}`);
-            cb.checked = !cb.checked;
         }
 
         function closeMenu() { document.getElementById('menuModal').style.display = 'none'; }
 
         function sendToWhatsApp() {
-            const selected = [];
-            const checkboxes = document.querySelectorAll('.meals-list input:checked');
-            checkboxes.forEach(cb => selected.push(cb.value));
-
-            if(selected.length === 0) { alert("لطفاً اختر صنفاً واحداً على الأقل."); return; }
-
-            const message = `مرحباً، أود الاشتراك في باقة: *${currentPlan}*%0A%0Aالأصناف المختارة:%0A- ${selected.join('%0A- ')}`;
-            window.open(`https://wa.me/966563683212?text=${message}`, '_blank');
+            const selected = Array.from(document.querySelectorAll('input:checked')).map(el => el.value);
+            if(selected.length === 0) return alert("اختر صنفاً واحداً");
+            const msg = `مرحباً، أود الاشتراك في: *${currentPlan}*%0Aالأصناف:%0A- ${selected.join('%0A- ')}`;
+            window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
         }
-
-        window.onclick = function(e) { if (e.target == document.getElementById('menuModal')) closeMenu(); }
     </script>
 </body>
 </html>
