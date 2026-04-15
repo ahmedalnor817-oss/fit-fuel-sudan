@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | القمة في الغذاء الصحي</title>
+    <title>Fit Fuel Elite | اختيار الوجبات الذكي</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #d4af37;
-            --gold-dark: #aa8c2c;
             --black: #050505;
             --card-bg: #121212;
-            --gray-text: #b0b0b0;
             --white: #ffffff;
         }
 
-        * { box-sizing: border-box; }
         body {
             font-family: 'Noto Kufi Arabic', sans-serif;
             margin: 0;
             background-color: var(--black);
             color: var(--white);
-            line-height: 1.6;
             overflow-x: hidden;
-        }
-
-        /* أنيميشن الظهور */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         header {
@@ -38,269 +28,214 @@
             align-items: center;
             background: rgba(5, 5, 5, 0.9);
             backdrop-filter: blur(15px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid #1a1a1a;
         }
 
-        .logo { font-size: 26px; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
+        .logo { font-size: 24px; font-weight: 900; color: var(--gold); }
 
-        .btn-wa-header {
-            background: var(--gold);
-            color: #000;
-            padding: 10px 22px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        /* قسم الهيرو الرئيسي */
-        .hero {
-            height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7), var(--black)), 
-                        url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero h1 { 
-            font-size: clamp(2.2rem, 6vw, 4rem); 
-            font-weight: 900; 
-            margin-bottom: 15px; 
-            animation: fadeInUp 1s ease;
-        }
-        .hero h1 span { color: var(--gold); }
-        .hero p { 
-            color: var(--gray-text); 
-            font-size: 1.2rem; 
-            max-width: 700px; 
-            margin-bottom: 35px;
-            animation: fadeInUp 1.2s ease;
-        }
-
-        /* حاسبة السعرات الفخمة */
-        .glass-calc {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 35px;
-            border-radius: 40px;
-            width: 100%;
-            max-width: 550px;
-            backdrop-filter: blur(20px);
-            animation: fadeInUp 1.4s ease;
-        }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        input, select {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            color: white;
-            padding: 14px;
-            border-radius: 15px;
-            font-family: 'Noto Kufi Arabic';
-            outline: none;
-        }
-
-        .btn-calc {
-            width: 100%;
-            background: linear-gradient(45deg, var(--gold), var(--gold-dark));
-            color: black;
-            padding: 16px;
-            border: none;
-            border-radius: 15px;
-            font-weight: 900;
-            font-size: 17px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        /* قسم المميزات */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        /* شبكة الباقات */
+        .plans-container {
             padding: 60px 8%;
-            text-align: center;
-        }
-        .feat-item i { font-size: 30px; color: var(--gold); display: block; margin-bottom: 10px; }
-        .feat-item h4 { margin: 5px 0; font-size: 18px; }
-        .feat-item p { color: var(--gray-text); font-size: 13px; }
-
-        /* قسم الباقات */
-        .section-head { text-align: center; margin: 80px 0 40px; }
-        .section-head h2 { font-size: 2.5rem; font-weight: 900; }
-        .section-head .line { width: 70px; height: 4px; background: var(--gold); margin: 10px auto; border-radius: 10px; }
-
-        .plans-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-            padding: 0 8% 80px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .plan-card {
-            height: 480px;
-            border-radius: 45px;
-            overflow: hidden;
+            height: 400px;
+            border-radius: 30px;
             position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.4s;
+            border: 1px solid #222;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            align-items: flex-end;
             background-size: cover;
             background-position: center;
-            text-decoration: none;
-            color: white;
-            transition: 0.5s;
-            border: 1px solid #222;
         }
 
         .plan-card::after {
             content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,1) 15%, rgba(0,0,0,0.3) 60%, transparent);
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
 
-        .plan-card:hover { transform: translateY(-15px); border-color: var(--gold); }
-        .plan-card:hover .card-info { padding-bottom: 50px; }
+        .plan-card:hover { transform: translateY(-10px); border-color: var(--gold); }
 
-        .card-info { padding: 35px; position: relative; z-index: 10; transition: 0.4s; }
-        .badge { background: var(--gold); color: black; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 900; }
-        .plan-card h3 { font-size: 24px; margin: 15px 0 10px; }
-        .price { font-size: 26px; font-weight: 900; color: var(--gold); }
+        .plan-info { position: relative; z-index: 2; padding: 30px; width: 100%; }
 
-        footer {
-            padding: 80px 8% 40px;
-            text-align: center;
-            background: #000;
-            border-top: 1px solid #111;
-        }
-
-        #calc-res {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 15px;
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--gold);
+        /* النافذة المنبثقة (Modal) */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
             display: none;
-            font-weight: bold;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: 40px;
+            padding: 40px;
+            position: relative;
+            overflow-y: auto;
             border: 1px solid var(--gold);
         }
+
+        .close-modal {
+            position: absolute; top: 20px; left: 20px;
+            font-size: 30px; color: var(--gold); cursor: pointer;
+        }
+
+        .meals-list { margin-top: 20px; }
+        .meal-item {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .meal-item:hover { background: #252525; }
+        .meal-item input { margin-left: 15px; accent-color: var(--gold); width: 20px; height: 20px; }
+        
+        .btn-confirm {
+            width: 100%;
+            background: var(--gold);
+            color: black;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 900;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        footer { padding: 60px 8%; text-align: center; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">FIT<span>FUEL</span> ELITE</div>
-        <a href="https://wa.me/966563683212" class="btn-wa-header">اطلب الآن</a>
+        <div style="color: var(--gold); font-weight: bold;">0563683212</div>
     </header>
 
-    <section class="hero">
-        <h1>نخبة <span>التغذية</span> في السعودية</h1>
-        <p>وجبات صحية فاخرة، مطبوخة بدقة، ومصممة خصيصاً لتناسب أهدافك الرياضية والصحية بنكهات عالمية.</p>
+    <div style="text-align:center; padding: 40px 8% 0;">
+        <h1>اختر باقتك ثم <span>حدد وجباتك</span></h1>
+        <p style="color:#888;">اضغط على الباقة لاستعراض المنيو المتوفر</p>
+    </div>
 
-        <div class="glass-calc">
-            <h3 style="margin-bottom: 20px;">حاسبة الذكاء الغذائي 🧬</h3>
-            <div class="input-row">
-                <input type="number" id="w" placeholder="الوزن (كجم)">
-                <input type="number" id="h" placeholder="الطول (سم)">
+    <div class="plans-container">
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600');" onclick="openMenu('دايت كير (التوازن)')">
+            <div class="plan-info">
+                <h3>باقة دايت كير</h3>
+                <p>2,350 ريال / شهرياً</p>
             </div>
-            <div class="input-row">
-                <input type="number" id="a" placeholder="العمر">
-                <select id="g">
-                    <option value="m">سيد</option>
-                    <option value="f">سيدة</option>
-                </select>
-            </div>
-            <button class="btn-calc" onclick="calculate()">تحليل البيانات الآن</button>
-            <div id="calc-res"></div>
         </div>
-    </section>
 
-    <div class="features">
-        <div class="feat-item">
-            <span>👨‍🍳</span>
-            <h4>شيف محترف</h4>
-            <p>طهي طازج يومياً بأعلى المعايير.</p>
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600');" onclick="openMenu('الرشاقة الذهبية')">
+            <div class="plan-info">
+                <h3>باقة الرشاقة</h3>
+                <p>2,500 ريال / شهرياً</p>
+            </div>
         </div>
-        <div class="feat-item">
-            <span>🍎</span>
-            <h4>جودة فائقة</h4>
-            <p>مكونات عضوية ومختارة بعناية.</p>
-        </div>
-        <div class="feat-item">
-            <span>🚚</span>
-            <h4>توصيل سريع</h4>
-            <p>نصلك لباب منزلك في صناديق مبردة.</p>
+
+        <div class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600');" onclick="openMenu('الضخامة والأداء')">
+            <div class="plan-info">
+                <h3>باقة الضخامة</h3>
+                <p>3,200 ريال / شهرياً</p>
+            </div>
         </div>
     </div>
 
-    <div class="section-head">
-        <h2>باقات النخبة 🍱</h2>
-        <div class="line"></div>
-    </div>
+    <div class="modal" id="menuModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeMenu()">&times;</span>
+            <h2 id="selectedPlanTitle">اسم الباقة</h2>
+            <p style="color:var(--gold);">اختر الوجبات المفضلة لديك:</p>
+            
+            <div class="meals-list" id="mealsContainer">
+                </div>
 
-    <div class="plans-grid">
-        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة دايت كير" class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800');">
-            <div class="card-info">
-                <span class="badge">الأكثر توازناً</span>
-                <h3>باقة دايت كير (Care)</h3>
-                <p style="color:#ccc; font-size:13px;">توازن مثالي بين الكربوهيدرات والبروتين لحياة صحية مستدامة.</p>
-                <div class="price">2,350 ريال <small style="font-size:12px; color:white;">/ شهر</small></div>
-            </div>
-        </a>
-
-        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة الرشاقة" class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800');">
-            <div class="card-info">
-                <span class="badge">خسارة وزن</span>
-                <h3>باقة الرشاقة الذهبية</h3>
-                <p style="color:#ccc; font-size:13px;">مصممة لحرق الدهون ونحت الجسم بأطباق غنية بالألياف والبروتين.</p>
-                <div class="price">2,500 ريال <small style="font-size:12px; color:white;">/ شهر</small></div>
-            </div>
-        </a>
-
-        <a href="https://wa.me/966563683212?text=أريد الاشتراك في باقة الضخامة" class="plan-card" style="background-image: url('https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=800');">
-            <div class="card-info">
-                <span class="badge">بناء عضلات</span>
-                <h3>باقة الأداء (Bulk)</h3>
-                <p style="color:#ccc; font-size:13px;">وجبات ضخمة لتعزيز الكتلة العضلية ومد الجسم بالطاقة القصوى.</p>
-                <div class="price">3,200 ريال <small style="font-size:12px; color:white;">/ شهر</small></div>
-            </div>
-        </a>
+            <button class="btn-confirm" onclick="sendToWhatsApp()">تأكيد الاختيار والطلب عبر واتساب</button>
+        </div>
     </div>
 
     <footer>
-        <h2 style="color:var(--gold)">FIT FUEL SAUDI ARABIA 🇸🇦</h2>
-        <p style="color:var(--gray-text)">نحن هنا لنغير مفهوم الغذاء الصحي في المملكة.</p>
-        <p style="font-size: 20px; font-weight: bold; margin-top: 20px;">واتساب: 0563683212</p>
-        <div style="margin-top: 40px; opacity: 0.2; font-size: 11px;">© 2026 جميع الحقوق محفوظة لـ Fit Fuel Elite</div>
+        <p>© 2026 Fit Fuel Elite - Saudi Arabia</p>
     </footer>
 
     <script>
-        function calculate() {
-            const w = document.getElementById('w').value;
-            const h = document.getElementById('h').value;
-            const a = document.getElementById('a').value;
-            const g = document.getElementById('g').value;
-            const res = document.getElementById('calc-res');
+        let currentPlan = "";
+        
+        // قائمة الأصناف (يمكنك تعديل الأسماء هنا)
+        const meals = [
+            "سلمون مشوي مع أرز بري",
+            "صدور دجاج بالليمون والأعشاب",
+            "ستيك لحم بصلصة المشروم",
+            "مكرونة فوسيلي بالدجاج الصحي",
+            "سلطة الكينوا مع الأفوكادو",
+            "كفتة دايت مع خضار سوتيه"
+        ];
 
-            if(w && h && a) {
-                let bmr = (g === 'm') ? (10 * w + 6.25 * h - 5 * a + 5) : (10 * w + 6.25 * h - 5 * a - 161);
-                res.style.display = "block";
-                res.innerHTML = "تحليل الجسم الملكي: تحتاج " + Math.round(bmr) + " سعرة حرارية للوصول لمثالية جسمك.";
-                window.scrollTo({ top: 300, behavior: 'smooth' });
-            } else {
-                alert("لطفاً، أكمل البيانات للتحليل.");
+        function openMenu(planName) {
+            currentPlan = planName;
+            document.getElementById('selectedPlanTitle').innerText = planName;
+            const container = document.getElementById('mealsContainer');
+            container.innerHTML = "";
+            
+            meals.forEach((meal, index) => {
+                container.innerHTML += `
+                    <div class="meal-item" onclick="toggleCheckbox(${index})">
+                        <input type="checkbox" id="meal-${index}" value="${meal}">
+                        <span>${meal}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('menuModal').style.display = 'flex';
+        }
+
+        function toggleCheckbox(index) {
+            const cb = document.getElementById(`meal-${index}`);
+            cb.checked = !cb.checked;
+        }
+
+        function closeMenu() {
+            document.getElementById('menuModal').style.display = 'none';
+        }
+
+        function sendToWhatsApp() {
+            const selected = [];
+            const checkboxes = document.querySelectorAll('.meals-list input:checked');
+            checkboxes.forEach(cb => selected.push(cb.value));
+
+            if(selected.length === 0) {
+                alert("لطفاً، اختر وجبة واحدة على الأقل.");
+                return;
             }
+
+            const message = `مرحباً Fit Fuel Elite،%0A%0Aأود الاشتراك في: *${currentPlan}*%0Aالوجبات المختارة:%0A- ${selected.join('%0A- ')}%0A%0Aأرجو التواصل معي لإتمام الحجز.`;
+            const whatsappURL = `https://wa.me/966563683212?text=${message}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+
+        // إغلاق النافذة عند الضغط خارجها
+        window.onclick = function(event) {
+            const modal = document.getElementById('menuModal');
+            if (event.target == modal) closeMenu();
         }
     </script>
 </body>
