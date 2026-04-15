@@ -3,588 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع التغذية والدايت – حلول صحية احترافية</title>
-    <!-- تحسين محركات البحث básico -->
-    <meta name="description" content="تطبيق تغذية وديت سعودي يوفّر خطط تنشيف وتضخيم، حاسبة سعرات، سلة تسوق ودفع آمن عبر Stripe.">
-    <meta name="keywords" content="تغذية, ديت, خطة وجبات, حاسبة سعرات, سلة تسوق, Stripe, السعودية">
-    <!-- خطوط عربية احترافية من Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- تحميل مكتبة Stripe أولاً -->
-    <script src="https://js.stripe.com/v3/"></script>
+    <title>Fit Fuel Elite | أفضل الأسعار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== المتغيرات العالمية ===== */
-        :root {
-            --primary-color: #2e7d32;   /* أخضر سعودي */
-            --secondary-color: #f9a825; /* أصفر ذهبي */
-            --bg-color: #fafafa;
-            --card-bg: #ffffff;
-            --text-color: #212121;
-            --light-text: #757575;
-            --border-radius: 12px;
-            --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --transition-speed: 0.3s;
+        :root { --brand: #d4af37; --bg: #f8f9fa; --dark: #1a1a1a; --white: #ffffff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--dark); }
+
+        /* شاشة الباقات */
+        #onboarding {
+            position: fixed; inset: 0; background: var(--white); z-index: 5000;
+            display: flex; flex-direction: column; padding: 40px 8%; overflow-y: auto;
         }
-        /* ===== إعادة الضبط الأساسية ===== */
-        *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-        html { font-size: 16px; }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+        .step-title { font-size: 1.8rem; font-weight: 900; text-align: center; margin-bottom: 30px; }
+        
+        .package-card {
+            background: #fff; border: 2px solid #eee; border-radius: 25px;
+            padding: 25px; margin-bottom: 20px; cursor: pointer; transition: 0.3s;
         }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; height: auto; display: block; }
-        button { cursor: pointer; font-family: inherit; }
-        /* ===== ترويسة الموقع ===== */
-        header {
-            background: var(--primary-color);
-            color: #fff;
-            padding: 2rem 1rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        .package-card:hover, .package-card.selected { border-color: var(--brand); background: #fefcf5; transform: scale(1.02); }
+        .package-card h3 { margin: 0; color: var(--brand); font-size: 1.4rem; }
+        .package-card p { margin: 10px 0; color: #666; font-size: 0.9rem; }
+        .package-price { font-weight: 900; font-size: 1.3rem; color: #27ae60; } /* لون أخضر للسعر الجذاب */
+
+        .btn-confirm { 
+            background: var(--dark); color: #fff; width: 100%; padding: 20px; 
+            border-radius: 20px; border: none; font-weight: 900; cursor: pointer; 
+            font-size: 1.1rem; margin-top: 10px;
         }
-        header::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: url('https://via.placeholder.com/1920x1080?text=Header+Background') center/cover no-repeat;
-            opacity: 0.15;
-            z-index: -1;
+
+        header { background: #fff; padding: 15px 8%; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;}
+        .container { padding: 20px 8% 120px; }
+
+        .meal-card {
+            background: #fff; border-radius: 25px; margin-bottom: 20px; overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative;
         }
-        header h1 { font-size: 2.2rem; margin-bottom: .5rem; font-weight: 700; }
-        header p { font-size: 1.1rem; opacity: .9; }
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
+        .meal-img { width: 100%; height: 200px; object-fit: cover; }
+        .meal-body { padding: 20px; }
+        
+        .add-btn {
+            position: absolute; top: 15px; left: 15px; background: var(--brand);
+            width: 45px; height: 45px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; color: #000; font-weight: 900;
         }
-        nav a {
-            color: #fff;
-            font-weight: 600;
-            padding: .5rem 1rem;
-            border-radius: var(--border-radius);
-            transition: background var(--transition-speed);
-        }
-        nav a:hover { background: rgba(255,255,255,0.2); }
-        /* ===== أقسام المحتوى ===== */
-        section {
-            padding: 3rem 1rem;
-            max-width: 1200px;
-            margin: auto;
-        }
-        h2 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: .8rem;
-        }
-        h2::before {
-            content: "";
-            width: 4px;
-            height: 100%;
-            background: var(--secondary-color);
-        }
-        /* ===== قسم البطل (hero) ===== */
-        #hero {
-            background: linear-gradient(135deg, rgba(46,125,50,.9), rgba(249,168,37,.9)),
-                        url('https://via.placeholder.com/1600x900?text=Healthy+Meal+Hero') center/cover no-repeat;
-            color: #fff;
-            text-align: center;
-            padding: 8rem 1rem;
-            position: relative;
-        }
-        #hero::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.3) 70%);
-        }
-        #hero > * { position: relative; z-index: 1; }
-        #hero h2 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; }
-        #hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem; line-height: 1.8; }
-        #hero .btn {
-            background: #fff;
-            color: var(--primary-color);
-            border: none;
-            padding: .9rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,.2);
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-        #hero .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,.3); }
-        /* ===== بطاقات الوجبات ===== */
-        .plan-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .tab {
-            background: #f5f5f5;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: .7rem 1.4rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-speed);
-        }
-        .tab.active, .tab:hover {
-            background: var(--primary-color);
-            color: #fff;
-        }
-        .plan-list {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        }
-        .plan-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-            position: relative;
-        }
-        .plan-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 20px rgba(0,0,0,.12);
-        }
-        .plan-card img {
-            height: 180px;
-            object-fit: cover;
-            border-bottom: 1px solid #eee;
-        }
-        .plan-card .content {
-            padding: 1.2rem;
-        }
-        .plan-card h3 {
-            margin: 0 0 .5rem;
-            font-size: 1.3rem;
-            color: var(--primary-color);
-        }
-        .plan-card p {
-            margin: .4rem 0;
-            font-size: .95rem;
-            color: var(--light-text);
-            line-height: 1.5;
-        }
-        .plan-card .price {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-top: .8rem;
-            color: var(--secondary-color);
-        }
-        .add-to-cart {
-            width: 100%;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
-            padding: .8rem;
-            font-size: 1rem;
-            margin-top: 1rem;
-            border-radius: var(--border-radius);
-            transition: background var(--transition-speed);
-        }
-        .add-to-cart:hover { background: #1b5e20; }
-        /* ===== حاسبة السعرات ===== */
-        .calc-form {
-            display: grid;
-            gap: 1rem;
-            max-width: 500px;
-            margin: 0 auto 2rem;
-        }
-        .calc-form label {
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-        }
-        .calc-form input,
-        .calc-form select {
-            padding: .8rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: border-color var(--transition-speed);
-        }
-        .calc-form input:focus,
-        .calc-form select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(46,125,50,.2);
-        }
-        #calcBtn {
-            align-self: start;
-            background: var(--secondary-color);
-            color: #212121;
-        }
-        #calcBtn:hover { background: #f57c00; }
-        #result {
-            font-weight: 600;
-            font-size: 1.2rem;
-            text-align: center;
-            color: var(--primary-color);
-        }
-        /* ===== سلة التسوق ===== */
-        #cartItems {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 1.5rem;
-            padding-right: .5rem;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: .9rem;
-            margin-bottom: .8rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,.05);
-        }
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .cart-item-name { font-weight: 600; margin-bottom: .3rem; }
-        .cart-item-qty { font-size: .9rem; color: var(--light-text); }
-        .cart-item-price { font-weight: 600; min-width: 80px; text-align: center; }
-        .cart-item button {
-            background: #c62828;
-            color: #fff;
-            border: none;
-            padding: .4rem .8rem;
-            border-radius: var(--border-radius);
-            font-size: .9rem;
-        }
-        .cart-item button:hover { background: #b71c1c; }
-        #cartTotal {
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-align: right;
-            margin-top: 1rem;
-            color: var(--primary-color);
-        }
-        #checkoutBtn {
-            width: 100%;
-            max-width: 300px;
-            margin: 1.5rem auto 0;
-            display: block;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
-            padding: 1rem;
-            font-size: 1.1rem;
-            border-radius: var(--border-radius);
-            transition: background var(--transition-speed);
-        }
-        #checkoutBtn:hover { background: #1b5e20; }
-        /* ===== قسم اتصل بنا ===== */
-        #contact {
-            background: #f1f8e9;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-        }
-        #contact p { margin: .8rem 0; font-size: 1.1rem; }
-        #phone-display {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.3rem;
-        }
-        /* ===== تذييل الموقع ===== */
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: var(--primary-color);
-            color: #fff;
-            font-size: .9rem;
-        }
-        /* ===== استجابة للشاشات الصغيرة ===== */
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            nav { flex-direction: column; gap: .5rem; }
-            section { padding: 2rem .8rem; }
-            h2 { font-size: 1.5rem; }
-            #hero { padding: 6rem 1rem; }
-            #hero h2 { font-size: 2rem; }
+
+        .bottom-bar {
+            position: fixed; bottom: 0; width: 100%; background: #fff;
+            padding: 20px 8%; border-top: 1px solid #eee; display: flex;
+            justify-content: space-between; align-items: center; z-index: 2000;
         }
     </style>
 </head>
 <body>
-    <!-- ===== ترويسة مع صورة بطل ===== -->
+
+    <div id="onboarding">
+        <h1 style="text-align: center; color: var(--brand);">FIT<span>FUEL</span></h1>
+        <div class="step-title">باقاتنا الاقتصادية الجديدة 🇸🇦</div>
+
+        <div class="package-card" onclick="selectPackage('الباقة الاقتصادية', 55, 'وجبتين يومياً')">
+            <h3>⚡ الباقة الاقتصادية</h3>
+            <p>مثالية للموظفين والطلاب.</p>
+            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>وجبتين (غداء + عشاء)</li></ul>
+            <div class="package-price">55 ريال / يومياً</div>
+        </div>
+
+        <div class="package-card" onclick="selectPackage('خسارة الوزن', 75, '3 وجبات يومياً')">
+            <h3>🥗 باقة الرشاقة</h3>
+            <p>الأكثر مبيعاً للتحكم بالوزن.</p>
+            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>3 وجبات متكاملة (فطور + غداء + عشاء)</li></ul>
+            <div class="package-price">75 ريال / يومياً</div>
+        </div>
+
+        <div class="package-card" onclick="selectPackage('بناء العضلات', 95, '3 وجبات + سناك')">
+            <h3>💪 باقة الضخامة</h3>
+            <p>وجبات غنية بالبروتين للرياضيين.</p>
+            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>3 وجبات + سناك صحي + حصة بروتين إضافية</li></ul>
+            <div class="package-price">95 ريال / يومياً</div>
+        </div>
+
+        <button class="btn-confirm" id="startBtn" style="display: none;" onclick="showMenu()">استعراض المنيو</button>
+    </div>
+
     <header>
-        <h1>تطبيق التغذية والدايت</h1>
-        <p>خطط غذائية مخصصة لتنشيط جسمك وتحقيق أهدافك الصحية</p>
-        <nav>
-            <a href="#home">الرئيسية</a>
-            <a href="#plans">الخطط</a>
-            <a href="#calculator">حاسبة السعرات</a>
-            <a href="#cart">سلة التسوق</a>
-            <a href="#contact">اتصل بنا</a>
-        </nav>
+        <div id="activePackage" style="font-weight: 700;">اختر باقة</div>
+        <div style="color: var(--brand); font-weight: 900;">0563683212</div>
     </header>
 
-    <!-- ===== قسم البطل (hero) ===== -->
-    <section id="hero">
-        <h2>صحتك، هدفنا</h2>
-        <p>احصل على خطة وجبات متوازنة، حساب دقيق للسعرات الحرارية، وخيارات دفع آمنة عبر Stripe.</p>
-        <a href="#plans" class="btn">استعرض الخطط الآن</a>
-    </section>
+    <div class="container">
+        <h2 style="margin-bottom: 25px;">اختر منيو اليوم 🥗</h2>
+        <div id="mealsGrid"></div>
+    </div>
 
-    <!-- ===== الصفحة الرئيسية ===== -->
-    <section id="home">
-        <h2>مرحبًا بك</h2>
-        <p>اختر هدفك: تنشيف (خسارة وزن) أو تضخيم (زيادة عضلات) واحصل على خطة وجبات مخصصة.</p>
-        <button id="startBtn">ابدأ الآن</button>
-    </section>
-
-    <!-- ===== خطط الوجبات ===== -->
-    <section id="plans">
-        <h2>خطط الوجبات</h2>
-        <div class="plan-tabs">
-            <button class="tab active" data-goal="cut">التنشيف</button>
-            <button class="tab" data-goal="bulk">التضخيم</button>
+    <div class="bottom-bar">
+        <div>
+            <div style="font-size: 0.8rem; color: #888;">سعر الاشتراك اليومي</div>
+            <div style="font-size: 1.4rem; font-weight: 900; color: #27ae60;" id="totalDisplay">0 ريال</div>
         </div>
-        <div id="planContainer" class="plan-list"></div>
-    </section>
+        <button class="btn-confirm" style="width: auto; padding: 15px 30px; background: #27ae60;" onclick="sendOrder()">اشترك الآن</button>
+    </div>
 
-    <!-- ===== حاسبة السعرات ===== -->
-    <section id="calculator">
-        <h2>حاسبة السعرات الحرارية</h2>
-        <div class="calc-form">
-            <label>الوزن (كجم): <input type="number" id="weight" min="20" max="200"></label>
-            <label>الطول (سم): <input type="number" id="height" min="100" max="250"></label>
-            <label>العمر: <input type="number" id="age" min="10" max="100"></label>
-            <label>الجنس:
-                <select id="gender">
-                    <option value="male">ذكر</option>
-                    <option value="female">أنثى</option>
-                </select>
-            </label>
-            <label>مستوى النشاط:
-                <select id="activity">
-                    <option value="1.2">قليل جدًا</option>
-                    <option value="1.375">خفيف</option>
-                    <option value="1.55">متوسط</option>
-                    <option value="1.725">عالي</option>
-                    <option value="1.9">شديد جدًا</option>
-                </select>
-            </label>
-            <button id="calcBtn">احسب السعرات</button>
-        </div>
-        <div id="result"></div>
-    </section>
-
-    <!-- ===== سلة التسوق ===== -->
-    <section id="cart">
-        <h2>سلة التسوق</h2>
-        <div id="cartItems"></div>
-        <div id="cartTotal">الإجمالي: 0.00 SAR</div>
-        <button id="checkoutBtn">دفع عبر Stripe</button>
-    </section>
-
-    <!-- ===== اتصل بنا ===== -->
-    <section id="contact">
-        <h2>اتصل بنا</h2>
-        <p>للاستفسارات أو الدعم الفني، يمكنك التواصل معنا عبر:</p>
-        <p>📞 <span id="phone-display">جاري التحميل...</span></p>
-        <p>✉️ <a href="mailto:info@example.com">info@example.com</a></p>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 موقع التغذية والدايت - جميع الحقوق محفوظة</p>
-    </footer>
-
-    <!-- ===== جافا سكريبت مدمج ===== -->
     <script>
-        /* ====== إعدادات سهلة التعديل ====== */
-        const phoneNumber = "+966 50 123 4567";   // عدّل هذا الرقم حسب رغبتك
-        // مفتاح Stripe للاختبار – استبدل بمفتاحك الناشر الفعلي عند الانتقال إلى الإنتاج
-        const stripe = Stripe('pk_test_51N1aJvLqGqHjJxYz6Z7Y8Z9Z0Z1Z2Z3Z4Z5Z6Z7Z8Z9Z0Z1Z2Z3Z4Z5Z6Z7Z8Z9Z0Z1Z2Z3Z4Z5Z6Z7Z8Z9Z0Z1Z2Z3Z4Z5Z6Z7Z8Z9Z0Z1Z2Z3Z4Z5Z6Z7Z8Z9Z0Z1');
+        const meals = [
+            { id: 1, name: "سلمون نرويجي مشوي", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" },
+            { id: 2, name: "دجاج كاري خفيف", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
+            { id: 3, name: "ستيك لحم بصوص المشروم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500" },
+            { id: 4, name: "سلطة كينوا مكسيكية", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500" },
+            { id: 5, name: "سلطة تونة بالذرة", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" }
+        ];
 
-        /* ====== بيانات خطط الوجبات (مع صور placeholder) ====== */
-        const mealPlans = {
-            cut: [
-                {name: 'وجبة إفطار خفيفة', calories: 300, price: 5, description: 'بيض مسلوق + خضروات + شريحة توست', img: 'https://via.placeholder.com/300x180?text=Light+Breakfast'},
-                {name: 'وجبة غداء متوازنة', calories: 450, price: 8, description: 'صدور دجاج مشوية + أرز بني + سلطة', img: 'https://via.placeholder.com/300x180?text=Balanced+Lunch'},
-                {name: 'وجبة عشاء خفيفة', calories: 250, price: 6, description: 'سمك سلمون + بخار خضروات', img: 'https://via.placeholder.com/300x180?text=Light+Dinner'}
-            ],
-            bulk: [
-                {name: 'وجبة إفطارenergetic', calories: 500, price: 7, description: 'شوفان + موز + زبدة فول سوداني + حليب', img: 'https://via.placeholder.com/300x180?text=Energetic+Breakfast'},
-                {name: 'وجبة غداء énergétique', calories: 650, price: 9, description: 'لحم بقر مشوي + بطاطا حلوة + بروكلي', img: 'https://via.placeholder.com/300x180?text=Energetic+Lunch'},
-                {name: 'وجبة عشاء énergétique', calories: 400, price: 8, description: 'دجاج + أرز + عدس', img: 'https://via.placeholder.com/300x180?text=Energetic+Dinner'}
-            ]
-        };
+        let selectedPackage = { name: '', price: 0, details: '' };
+        let selectedMeals = new Set();
 
-        let cart = []; // {item, qty}
+        function selectPackage(name, price, details) {
+            selectedPackage = { name, price, details };
+            document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('totalDisplay').innerText = price + " ريال";
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const startBtn = document.getElementById('startBtn');
-            const planContainer = document.getElementById('planContainer');
-            const calcBtn = document.getElementById('calcBtn');
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            const cartItemsDiv = document.getElementById('cartItems');
-            const cartTotalDiv = document.getElementById('cartTotal');
-            const phoneDisplay = document.getElementById('phone-display');
+        function showMenu() {
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('activePackage').innerText = selectedPackage.name;
+            renderMeals();
+        }
 
-            // عرض رقم الاتصال
-            phoneDisplay.textContent = phoneNumber;
+        function renderMeals() {
+            const grid = document.getElementById('mealsGrid');
+            grid.innerHTML = meals.map(m => `
+                <div class="meal-card" onclick="toggleMeal('${m.name}')">
+                    <div class="add-btn">${selectedMeals.has(m.name) ? '✓' : '+'}</div>
+                    <img src="${m.img}" class="meal-img">
+                    <div class="meal-body">
+                        <h3 style="margin:0;">${m.name}</h3>
+                        <p style="font-size:0.8rem; color:#888;">سعرات محسوبة بدقة</p>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-            // زر البداية → الانتقال إلى قسم الخطط
-            startBtn.addEventListener('click', () => {
-                document.getElementById('plans').scrollIntoView({behavior:'smooth'});
-            });
+        function toggleMeal(name) {
+            if(selectedMeals.has(name)) selectedMeals.delete(name);
+            else selectedMeals.add(name);
+            renderMeals();
+        }
 
-            // تبديل التبويبات بين التنشيف والتضخيم
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    const goal = tab.dataset.goal;
-                    renderPlans(goal);
-                });
-            });
-
-            // عرض خطط الوجبات حسب الهدف المحدد
-            function renderPlans(goal) {
-                planContainer.innerHTML = '';
-                const plans = mealPlans[goal] || [];
-                plans.forEach((plan, idx) => {
-                    const card = document.createElement('div');
-                    card.className = 'plan-card';
-                    card.innerHTML = `
-                        <img src="${plan.img}" alt="${plan.name}">
-                        <div class="content">
-                            <h3>${plan.name}</h3>
-                            <p>${plan.description}</p>
-                            <p class="price">${plan.price} SAR</p>
-                            <button class="add-to-cart" data-index="${idx}" data-goal="${goal}">إضافة للسلال</button>
-                        </div>
-                    `;
-                    planContainer.appendChild(card);
-                });
-
-                // مستمعات أزرار "إضافة للسلال"
-                document.querySelectorAll('.add-to-cart').forEach(btn => {
-                    btn.addEventListener('click', e => {
-                        const goal = e.target.dataset.goal;
-                        const idx = parseInt(e.target.dataset.index);
-                        const item = mealPlans[goal][idx];
-                        addToCart(item);
-                    });
-                });
-            }
-
-            // تهيئة العرض مع خطة التنشيف افتراضياً
-            renderPlans('cut');
-
-            // حاسبة السعرات الحرارية (معادلة Mifflin-St Jeor)
-            calcBtn.addEventListener('click', () => {
-                const weight = parseFloat(document.getElementById('weight').value);
-                const height = parseFloat(document.getElementById('height').value);
-                const age = parseFloat(document.getElementById('age').value);
-                const gender = document.getElementById('gender').value;
-                const activity = parseFloat(document.getElementById('activity').value);
-
-                if (isNaN(weight) || isNaN(height) || isNaN(age)) {
-                    document.getElementById('result').textContent = 'يرجى إدخال جميع القيم correctamente';
-                    return;
-                }
-
-                let bmr;
-                if (gender === 'male') {
-                    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-                } else {
-                    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-                }
-                const tdee = bmr * activity;
-                document.getElementById('result').textContent = `السعرات الحرارية اليومية estimate: ${Math.round(tdee)} kcal`;
-            });
-
-            // وظائف سلة التسوق
-            function addToCart(item) {
-                const existing = cart.find(i => i.item.name === item.name);
-                if (existing) {
-                    existing.qty += 1;
-                } else {
-                    cart.push({item, qty: 1});
-                }
-                updateCartUI();
-            }
-
-            function removeFromCart(name) {
-                cart = cart.filter(i => i.item.name !== name);
-                updateCartUI();
-            }
-
-            function updateCartUI() {
-                cartItemsDiv.innerHTML = '';
-                let total = 0;
-                cart.forEach(({item, qty}) => {
-                    const div = document.createElement('div');
-                    div.className = 'cart-item';
-                    div.innerHTML = `
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-qty">× ${qty}</div>
-                        </div>
-                        <div class="cart-item-price">${(item.price * qty).toFixed(2)} SAR</div>
-                        <button class="remove" data-name="${item.name}">حذف</button>
-                    `;
-                    cartItemsDiv.appendChild(div);
-                    total += item.price * qty;
-                });
-                cartTotalDiv.textContent = `الإجمالي: ${total.toFixed(2)} SAR`;
-
-                // مستمعات أزرار الحذف
-                document.querySelectorAll('.cart-item button.remove').forEach(btn => {
-                    btn.addEventListener('click', e => {
-                        const name = e.target.dataset.name;
-                        removeFromCart(name);
-                    });
-                });
-            }
-
-            // عملية الدفع عبر Stripe (وضع الاختبار)
-            checkoutBtn.addEventListener('click', async () => {
-                if (cart.length === 0) {
-                    alert('سلة التسوق فارغة');
-                    return;
-                }
-
-                // حساب المبلغ الإجمالي بالهللة (أصغر وحدة للعملة)
-                const amount = Math.round(cart.reduce((sum, {item, qty}) => sum + (item.price * qty * 100), 0));
-
-                try {
-                    // في تطبيق حقيقي، يجب استدعاء نقطة نهاية خلفية خاصة بك تُنشئ جلسة Stripe وتعيد المعرف
-                    // هنا نستخدم دالة وهمية لتوضيح الفكرة
-                    const session = await createCheckoutSession(amount);
-                    await stripe.redirectToCheckout({sessionId: session.id});
-                } catch (err) {
-                    console.error('خطأ في إنشاء جلسة الدفع:', err);
-                    alert('حدث خطأ أثناء معالجة الدفع. يرجى المحاولة لاحقًا.');
-                }
-            });
-
-            // دالة وهمية لإنشاء جلسة دفع مع Stripe (ستستبدل بدعوة إلى خلفية خاصة بك)
-            async function createCheckoutSession(amount) {
-                // في التطبيق الحقيقي، استدعاء خلفيتك التي تتواصل مع Stripe API
-                // هذا المعرف ثابت فقط لأغراض العرض
-                return {id: 'cs_test_a1B2c3D4e5F6g7H8i9J0k1L2m3N4o5P6q7R8s9T0u1V2w3X4y5Z6'};
-            }
-        });
+        function sendOrder() {
+            if(selectedMeals.size === 0) return alert("فضلاً اختر وجبة واحدة على الأقل");
+            const mealsList = Array.from(selectedMeals).join('%0A- ');
+            const text = `طلب اشتراك جديد من الموقع:%0A%0A*الباقة:* ${selectedPackage.name}%0A*التكلفة:* ${selectedPackage.price} ريال/يوم%0A%0A*الوجبات المختارة:*%0A- ${mealsList}`;
+            window.open(`https://wa.me/966563683212?text=${text}`, '_blank');
+        }
     </script>
 </body>
 </html>
