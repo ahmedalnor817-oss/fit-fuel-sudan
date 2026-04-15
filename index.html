@@ -3,148 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | نظام الاشتراكات الذكي</title>
+    <title>Fit Fuel Elite | مركز الأنظمة الغذائية</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --brand: #d4af37; --bg: #fdfdfd; --dark: #121212; --gray: #777; }
+        :root { --primary: #d4af37; --bg: #fdfdfd; --text: #333; --border: #ececec; }
         * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--dark); }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
 
-        /* الهيدر المحترف */
-        header { background: #fff; padding: 15px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
-        .brand { font-weight: 900; font-size: 1.4rem; color: var(--dark); }
-        .brand span { color: var(--brand); }
+        /* الهيدر */
+        header { background: #fff; padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 900; font-size: 1.6rem; color: #1a1a1a; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
 
-        .container { padding: 20px 6% 120px; max-width: 900px; margin: 0 auto; }
+        /* المراحل (Stepper) */
+        .stepper { display: flex; justify-content: center; padding: 20px; background: #fff; gap: 20px; font-size: 0.8rem; font-weight: 700; color: #ccc; border-bottom: 1px solid var(--border); }
+        .stepper div.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
-        /* نظام التقويم وأيام الاشتراك */
-        .plan-header { background: var(--dark); color: #fff; padding: 25px; border-radius: 25px; margin-bottom: 30px; }
-        .days-grid { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .day-box { 
-            min-width: 70px; height: 90px; background: rgba(255,255,255,0.1); border-radius: 15px; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
-        }
-        .day-box.active { background: var(--brand); color: #000; font-weight: 900; }
-        .day-box span { font-size: 0.8rem; margin-top: 5px; opacity: 0.8; }
+        /* الحاويات */
+        .container { padding: 40px 8%; max-width: 1100px; margin: 0 auto; min-height: 70vh; }
+        .view { display: none; }
+        .view.active { display: block; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* اختيار الوجبات (فطور، غداء، عشاء) */
-        .meal-slot { background: #fff; border-radius: 20px; padding: 20px; border: 1px solid #eee; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .slot-title { font-weight: 900; color: var(--brand); margin-bottom: 15px; display: flex; justify-content: space-between; }
-        
-        .meal-item { 
-            display: flex; align-items: center; gap: 15px; padding: 12px; border: 1px solid #f0f0f0; 
-            border-radius: 15px; margin-bottom: 10px; cursor: pointer; 
-        }
-        .meal-item.selected { border-color: var(--brand); background: #fefcf5; }
-        .meal-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; }
-        .meal-info h4 { margin: 0; font-size: 0.95rem; }
-        .meal-info span { font-size: 0.75rem; color: var(--gray); }
+        /* بطاقات البرامج (دايت سنتر ستايل) */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .prog-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .prog-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .prog-img { width: 100%; height: 200px; object-fit: cover; }
+        .prog-info { padding: 25px; }
+        .prog-info h3 { margin: 0 0 10px; font-weight: 900; }
+        .prog-info p { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
-        /* الماكروز التفاعلية */
-        .daily-summary { background: #f8f9fa; padding: 15px; border-radius: 15px; display: flex; justify-content: space-around; text-align: center; font-size: 0.8rem; margin-bottom: 20px; }
-        .daily-summary b { display: block; font-size: 1rem; color: var(--brand); }
+        /* خيارات الاشتراك */
+        .plan-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .plan-box { border: 1px solid var(--border); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; }
+        .plan-box.selected { border-color: var(--primary); background: #fefcf5; }
+        .plan-box b { font-size: 1.2rem; display: block; }
 
-        /* شريط الاشتراك السفلي */
-        .checkout-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #fff;
-            padding: 20px 6%; border-top: 1px solid #eee; display: flex;
-            justify-content: space-between; align-items: center; z-index: 2000;
-        }
-        .price-info { line-height: 1.2; }
-        .price-total { display: block; font-size: 1.5rem; font-weight: 900; color: var(--brand); }
-        .btn-subscribe { background: var(--dark); color: #fff; padding: 15px 40px; border-radius: 18px; border: none; font-weight: 900; cursor: pointer; }
+        /* منيو اختيار الوجبات */
+        .meal-selection { background: #fff; border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .meal-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f9f9f9; }
+        .meal-row:last-child { border: none; }
+        .btn-select { background: #f4f4f4; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+        .btn-select.active { background: var(--primary); color: #000; }
+
+        /* الفوتر السفلي */
+        footer { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid var(--border); padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .total-box { font-weight: 900; font-size: 1.3rem; color: var(--primary); }
+        .next-btn { background: #1a1a1a; color: #fff; padding: 15px 40px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand">FIT<span>FUEL</span> ELITE</div>
-        <div style="font-size: 0.8rem; background: #eee; padding: 5px 12px; border-radius: 50px;">خطة 24 يوم</div>
+        <div class="logo">FIT<span>FUEL</span></div>
+        <div style="font-size: 0.8rem; font-weight: 700;">خدمة العملاء: 0563683212</div>
     </header>
 
+    <div class="stepper">
+        <div id="step-1" class="active">1. اختيار البرنامج</div>
+        <div id="step-2">2. مدة الاشتراك</div>
+        <div id="step-3">3. تخصيص الوجبات</div>
+    </div>
+
     <div class="container">
-        
-        <div class="plan-header">
-            <h3 style="margin:0 0 15px;">جدولة اشتراكك</h3>
-            <div class="days-grid">
-                <div class="day-box active">السبت<span>16 مايو</span></div>
-                <div class="day-box">الأحد<span>17 مايو</span></div>
-                <div class="day-box">الاثنين<span>18 مايو</span></div>
-                <div class="day-box">الثلاثاء<span>19 مايو</span></div>
-                <div class="day-box">الأربعاء<span>20 مايو</span></div>
-                <div class="day-box">الخميس<span>21 مايو</span></div>
-            </div>
-        </div>
-
-        <div class="daily-summary">
-            <div><b>1450</b>سعرة</div>
-            <div><b>120g</b>بروتين</div>
-            <div><b>150g</b>كارب</div>
-            <div><b>40g</b>دهون</div>
-        </div>
-
-        <div class="meal-slot">
-            <div class="slot-title"><span>🍳 الفطور</span> <small style="font-weight: normal; color: #888;">اختر وجبة واحدة</small></div>
-            <div class="meal-item selected" onclick="selectMeal(this, 'فطور')">
-                <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=100" class="meal-img">
-                <div class="meal-info">
-                    <h4>أومليت بالأعشاب والجبن</h4>
-                    <span>280 سعرة | 20g بروتين</span>
+        <div id="view-1" class="view active">
+            <h2 style="text-align:center; margin-bottom:40px;">اختر البرنامج المناسب لهدفك</h2>
+            <div class="grid-3">
+                <div class="prog-card" onclick="goToStep(2, 'برنامج خسارة الوزن')">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500" class="prog-img">
+                    <div class="prog-info">
+                        <h3>برنامج الحمية والرشاقة</h3>
+                        <p>برنامج متكامل يركز على حرق الدهون مع الحفاظ على النشاط والحيوية.</p>
+                        <span style="color:var(--primary); font-weight:700;">بدءاً من 1,600 ريال</span>
+                    </div>
                 </div>
-            </div>
-            <div class="meal-item" onclick="selectMeal(this, 'فطور')">
-                <img src="https://images.unsplash.com/photo-1506084868730-34ad1e1398dd?w=100" class="meal-img">
-                <div class="meal-info">
-                    <h4>بان كيك شوفان صحي</h4>
-                    <span>320 سعرة | 15g بروتين</span>
+                <div class="prog-card" onclick="goToStep(2, 'برنامج بناء العضلات')">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa20e79c?w=500" class="prog-img">
+                    <div class="prog-info">
+                        <h3>برنامج الأداء الرياضي</h3>
+                        <p>عالي البروتين والسعرات لدعم نمو العضلات والتعافي بعد التمرين.</p>
+                        <span style="color:var(--primary); font-weight:700;">بدءاً من 2,200 ريال</span>
+                    </div>
+                </div>
+                <div class="prog-card" onclick="goToStep(2, 'برنامج كيتو دايت')">
+                    <img src="https://images.unsplash.com/photo-1535914223981-bf0125d4b189?w=500" class="prog-img">
+                    <div class="prog-info">
+                        <h3>برنامج الكيتو الصحي</h3>
+                        <p>توازن مثالي بين الدهون الصحية والبروتين للدخول في الحالة الكيتوزية.</p>
+                        <span style="color:var(--primary); font-weight:700;">بدءاً من 1,900 ريال</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="meal-slot">
-            <div class="slot-title"><span>🍗 الغداء</span> <small style="font-weight: normal; color: #888;">اختر وجبة واحدة</small></div>
-            <div class="meal-item selected" onclick="selectMeal(this, 'غداء')">
-                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=100" class="meal-img">
-                <div class="meal-info">
-                    <h4>سلمون مشوي مع أرز بني</h4>
-                    <span>450 سعرة | 35g بروتين</span>
+        <div id="view-2" class="view">
+            <h2 style="text-align:center;">اختر مدة الاشتراك لـ <span id="selected-prog-name"></span></h2>
+            <div class="plan-options">
+                <div class="plan-box" onclick="selectPlan(1450, 'أسبوعين')">
+                    <b>أسبوعين</b>
+                    <span>12 يوم اشتراك</span>
+                    <p>1,450 ريال</p>
+                </div>
+                <div class="plan-box selected" onclick="selectPlan(2400, 'شهر كامل')">
+                    <b>شهر كامل</b>
+                    <span>24 يوم اشتراك</span>
+                    <p>2,400 ريال</p>
+                </div>
+            </div>
+            <button class="next-btn" style="width:100%; margin-top:30px;" onclick="goToStep(3)">متابعة لاختيار الوجبات</button>
+        </div>
+
+        <div id="view-3" class="view">
+            <h2>خصص وجباتك اليومية</h2>
+            <div class="meal-selection">
+                <h4 style="color:var(--primary)">☀️ الفطور</h4>
+                <div class="meal-row">
+                    <span>أومليت كلاسيكي مع خضار</span>
+                    <button class="btn-select active">اختيار</button>
+                </div>
+                <div class="meal-row">
+                    <span>شوكولاتة شوفان بالمكسرات</span>
+                    <button class="btn-select">اختيار</button>
+                </div>
+            </div>
+
+            <div class="meal-selection">
+                <h4 style="color:var(--primary)">🥗 الغداء</h4>
+                <div class="meal-row">
+                    <span>سلمون بصوص الليمون (150g)</span>
+                    <button class="btn-select active">اختيار</button>
+                </div>
+                <div class="meal-row">
+                    <span>دجاج بيري بيري مع أرز (150g)</span>
+                    <button class="btn-select">اختيار</button>
                 </div>
             </div>
         </div>
-
-        <div class="meal-slot">
-            <div class="slot-title"><span>🥗 العشاء</span> <small style="font-weight: normal; color: #888;">اختر وجبة واحدة</small></div>
-            <div class="meal-item" onclick="selectMeal(this, 'عشاء')">
-                <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=100" class="meal-img">
-                <div class="meal-info">
-                    <h4>سلطة سيزر بالدجاج</h4>
-                    <span>310 سعرة | 28g بروتين</span>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="checkout-bar">
-        <div class="price-info">
-            إجمالي الاشتراك (شهري)
-            <span class="price-total">1,950 ريال</span>
-        </div>
-        <button class="btn-subscribe" onclick="finishSubscription()">تفعيل الخطة</button>
-    </div>
+    <footer>
+        <div class="total-box" id="footer-price">2,400 ريال</div>
+        <button class="next-btn" onclick="sendOrder()">تأكيد الطلب</button>
+    </footer>
 
     <script>
-        function selectMeal(element, slot) {
-            // إلغاء تحديد الوجبات الأخرى في نفس الخانة
-            const parent = element.parentElement;
-            parent.querySelectorAll('.meal-item').forEach(item => item.classList.remove('selected'));
-            element.classList.add('selected');
+        let orderData = { program: '', plan: 'شهر كامل', price: 2400 };
+
+        function goToStep(step, progName) {
+            if(progName) {
+                orderData.program = progName;
+                document.getElementById('selected-prog-name').innerText = progName;
+            }
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + step).classList.add('active');
+            
+            document.querySelectorAll('.stepper div').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
         }
 
-        function finishSubscription() {
-            const msg = "مرحباً Fit Fuel، قمت بتصميم برنامجي الغذائي عبر الموقع وأود تفعيله.%0Aالاشتراك: شهر كامل (24 يوم)%0Aالسعر: 1,950 ريال";
+        function selectPlan(price, name) {
+            orderData.price = price;
+            orderData.plan = name;
+            document.getElementById('footer-price').innerText = price + " ريال";
+            document.querySelectorAll('.plan-box').forEach(b => b.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function sendOrder() {
+            const msg = `طلب جديد من Fit Fuel:%0A*البرنامج:* ${orderData.program}%0A*المدة:* ${orderData.plan}%0A*الإجمالي:* ${orderData.price} ريال`;
             window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
         }
     </script>
 </body>
 </html>
+
+           
