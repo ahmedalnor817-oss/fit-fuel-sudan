@@ -3,179 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | مركز الأنظمة الغذائية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <title>Fit Fuel | تجربة النخبة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #d4af37; --bg: #fdfdfd; --text: #333; --border: #ececec; }
-        * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+        :root { --gold: #d4af37; --bg: #050505; --card: #111111; --text: #ffffff; }
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-        /* الهيدر */
-        header { background: #fff; padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 900; font-size: 1.6rem; color: #1a1a1a; letter-spacing: -1px; }
-        .logo span { color: var(--primary); }
+        /* الشاشة الافتتاحية (Intro) */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            text-align: center; padding: 20px;
+        }
+        .hero h1 { font-size: 4rem; margin: 0; letter-spacing: -2px; font-weight: 900; }
+        .hero h1 span { color: var(--gold); text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .hero p { font-size: 1.2rem; opacity: 0.6; max-width: 600px; }
 
-        /* المراحل (Stepper) */
-        .stepper { display: flex; justify-content: center; padding: 20px; background: #fff; gap: 20px; font-size: 0.8rem; font-weight: 700; color: #ccc; border-bottom: 1px solid var(--border); }
-        .stepper div.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        /* زر البدء المبهر */
+        .glow-btn {
+            margin-top: 40px; padding: 20px 60px; background: var(--gold); color: #000;
+            border-radius: 50px; text-decoration: none; font-weight: 900; font-size: 1.2rem;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); cursor: pointer; border: none;
+        }
+        .glow-btn:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(212, 175, 55, 0.6); }
 
-        /* الحاويات */
-        .container { padding: 40px 8%; max-width: 1100px; margin: 0 auto; min-height: 70vh; }
-        .view { display: none; }
-        .view.active { display: block; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* شبكة البرامج (المسارات) */
+        .container { padding: 100px 8%; display: none; opacity: 0; }
+        .container.active { display: block; opacity: 1; animation: fadeInUp 1s forwards; }
 
-        /* بطاقات البرامج (دايت سنتر ستايل) */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .prog-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; }
-        .prog-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .prog-img { width: 100%; height: 200px; object-fit: cover; }
-        .prog-info { padding: 25px; }
-        .prog-info h3 { margin: 0 0 10px; font-weight: 900; }
-        .prog-info p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+        .program-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        
+        .card {
+            background: var(--card); border-radius: 40px; overflow: hidden; position: relative;
+            border: 1px solid #222; height: 500px; cursor: pointer;
+        }
+        .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: grayscale(50%); }
+        .card:hover img { opacity: 0.8; filter: grayscale(0%); transform: scale(1.1); }
+        
+        .card-content {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+        }
+        .card h3 { font-size: 2rem; margin: 0; font-weight: 900; }
+        .price-tag { color: var(--gold); font-size: 1.5rem; font-weight: 700; margin-top: 10px; display: block; }
 
-        /* خيارات الاشتراك */
-        .plan-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .plan-box { border: 1px solid var(--border); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; }
-        .plan-box.selected { border-color: var(--primary); background: #fefcf5; }
-        .plan-box b { font-size: 1.2rem; display: block; }
+        /* العدادات التفاعلية (Dashboard) */
+        .stats-bar {
+            display: flex; justify-content: space-around; background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; margin-bottom: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-item b { display: block; font-size: 2rem; color: var(--gold); }
+        .stat-item span { opacity: 0.5; font-size: 0.9rem; }
 
-        /* منيو اختيار الوجبات */
-        .meal-selection { background: #fff; border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
-        .meal-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f9f9f9; }
-        .meal-row:last-child { border: none; }
-        .btn-select { background: #f4f4f4; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
-        .btn-select.active { background: var(--primary); color: #000; }
+        @keyframes fadeInUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* الفوتر السفلي */
-        footer { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid var(--border); padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-        .total-box { font-weight: 900; font-size: 1.3rem; color: var(--primary); }
-        .next-btn { background: #1a1a1a; color: #fff; padding: 15px 40px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
+        /* شريط الواتساب الفاخر */
+        .bottom-nav {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 500px; background: rgba(212, 175, 55, 0.9);
+            padding: 15px 30px; border-radius: 100px; display: flex; justify-content: space-between;
+            align-items: center; color: #000; font-weight: 900; z-index: 9999;
+            backdrop-filter: blur(10px); display: none;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">FIT<span>FUEL</span></div>
-        <div style="font-size: 0.8rem; font-weight: 700;">خدمة العملاء: 0563683212</div>
-    </header>
+    <section class="hero" id="hero">
+        <h1 id="main-title">FIT<span>FUEL</span></h1>
+        <p>التغذية ليست مجرد طعام، بل هي وقود لحياتك الجديدة. هل أنت مستعد للتحول؟</p>
+        <button class="glow-btn" onclick="startExperience()">ابدأ رحلتك الآن</button>
+    </section>
 
-    <div class="stepper">
-        <div id="step-1" class="active">1. اختيار البرنامج</div>
-        <div id="step-2">2. مدة الاشتراك</div>
-        <div id="step-3">3. تخصيص الوجبات</div>
-    </div>
-
-    <div class="container">
-        <div id="view-1" class="view active">
-            <h2 style="text-align:center; margin-bottom:40px;">اختر البرنامج المناسب لهدفك</h2>
-            <div class="grid-3">
-                <div class="prog-card" onclick="goToStep(2, 'برنامج خسارة الوزن')">
-                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500" class="prog-img">
-                    <div class="prog-info">
-                        <h3>برنامج الحمية والرشاقة</h3>
-                        <p>برنامج متكامل يركز على حرق الدهون مع الحفاظ على النشاط والحيوية.</p>
-                        <span style="color:var(--primary); font-weight:700;">بدءاً من 1,600 ريال</span>
-                    </div>
-                </div>
-                <div class="prog-card" onclick="goToStep(2, 'برنامج بناء العضلات')">
-                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa20e79c?w=500" class="prog-img">
-                    <div class="prog-info">
-                        <h3>برنامج الأداء الرياضي</h3>
-                        <p>عالي البروتين والسعرات لدعم نمو العضلات والتعافي بعد التمرين.</p>
-                        <span style="color:var(--primary); font-weight:700;">بدءاً من 2,200 ريال</span>
-                    </div>
-                </div>
-                <div class="prog-card" onclick="goToStep(2, 'برنامج كيتو دايت')">
-                    <img src="https://images.unsplash.com/photo-1535914223981-bf0125d4b189?w=500" class="prog-img">
-                    <div class="prog-info">
-                        <h3>برنامج الكيتو الصحي</h3>
-                        <p>توازن مثالي بين الدهون الصحية والبروتين للدخول في الحالة الكيتوزية.</p>
-                        <span style="color:var(--primary); font-weight:700;">بدءاً من 1,900 ريال</span>
-                    </div>
-                </div>
-            </div>
+    <div class="container" id="main-content">
+        <div class="stats-bar">
+            <div class="stat-item"><b>24</b><span>يوم اشتراك</span></div>
+            <div class="stat-item"><b>100%</b><span>صحي عضوي</span></div>
+            <div class="stat-item"><b>+50</b><span>وجبة متنوعة</span></div>
         </div>
 
-        <div id="view-2" class="view">
-            <h2 style="text-align:center;">اختر مدة الاشتراك لـ <span id="selected-prog-name"></span></h2>
-            <div class="plan-options">
-                <div class="plan-box" onclick="selectPlan(1450, 'أسبوعين')">
-                    <b>أسبوعين</b>
-                    <span>12 يوم اشتراك</span>
-                    <p>1,450 ريال</p>
-                </div>
-                <div class="plan-box selected" onclick="selectPlan(2400, 'شهر كامل')">
-                    <b>شهر كامل</b>
-                    <span>24 يوم اشتراك</span>
-                    <p>2,400 ريال</p>
-                </div>
-            </div>
-            <button class="next-btn" style="width:100%; margin-top:30px;" onclick="goToStep(3)">متابعة لاختيار الوجبات</button>
-        </div>
-
-        <div id="view-3" class="view">
-            <h2>خصص وجباتك اليومية</h2>
-            <div class="meal-selection">
-                <h4 style="color:var(--primary)">☀️ الفطور</h4>
-                <div class="meal-row">
-                    <span>أومليت كلاسيكي مع خضار</span>
-                    <button class="btn-select active">اختيار</button>
-                </div>
-                <div class="meal-row">
-                    <span>شوكولاتة شوفان بالمكسرات</span>
-                    <button class="btn-select">اختيار</button>
+        <h2 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center;">حدد مسارك الصحي</h2>
+        
+        <div class="program-grid">
+            <div class="card" onclick="selectProg('خسارة الوزن (الرشاقة)', '1,750')">
+                <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800">
+                <div class="card-content">
+                    <h3>خسارة الوزن</h3>
+                    <p>نظام ذكي لحرق الدهون بأعلى كفاءة.</p>
+                    <span class="price-tag">1,750 ريال / شهر</span>
                 </div>
             </div>
 
-            <div class="meal-selection">
-                <h4 style="color:var(--primary)">🥗 الغداء</h4>
-                <div class="meal-row">
-                    <span>سلمون بصوص الليمون (150g)</span>
-                    <button class="btn-select active">اختيار</button>
+            <div class="card" onclick="selectProg('بناء العضلات (الضخامة)', '2,300')">
+                <img src="https://images.unsplash.com/photo-1583454110551-21f2fa20e79c?w=800">
+                <div class="card-content">
+                    <h3>بناء العضلات</h3>
+                    <p>بروتين مكثف لنتائج رياضية جبارة.</p>
+                    <span class="price-tag">2,300 ريال / شهر</span>
                 </div>
-                <div class="meal-row">
-                    <span>دجاج بيري بيري مع أرز (150g)</span>
-                    <button class="btn-select">اختيار</button>
+            </div>
+
+            <div class="card" onclick="selectProg('نظام الكيتو (الطاقة)', '2,000')">
+                <img src="https://images.unsplash.com/photo-1535914223981-bf0125d4b189?w=800">
+                <div class="card-content">
+                    <h3>نظام الكيتو</h3>
+                    <p>طاقة لا تنتهي من الدهون الصحية.</p>
+                    <span class="price-tag">2,000 ريال / شهر</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div class="total-box" id="footer-price">2,400 ريال</div>
-        <button class="next-btn" onclick="sendOrder()">تأكيد الطلب</button>
-    </footer>
+    <div class="bottom-nav" id="order-bar">
+        <span id="order-text">اطلب مسارك الآن</span>
+        <button onclick="finalOrder()" style="background: #000; color: #fff; border: none; padding: 10px 25px; border-radius: 50px; font-weight: 900; cursor: pointer;">تأكيد</button>
+    </div>
 
     <script>
-        let orderData = { program: '', plan: 'شهر كامل', price: 2400 };
+        let selected = "";
 
-        function goToStep(step, progName) {
-            if(progName) {
-                orderData.program = progName;
-                document.getElementById('selected-prog-name').innerText = progName;
-            }
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById('view-' + step).classList.add('active');
-            
-            document.querySelectorAll('.stepper div').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-' + step).classList.add('active');
+        function startExperience() {
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('main-content').classList.add('active');
         }
 
-        function selectPlan(price, name) {
-            orderData.price = price;
-            orderData.plan = name;
-            document.getElementById('footer-price').innerText = price + " ريال";
-            document.querySelectorAll('.plan-box').forEach(b => b.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+        function selectProg(name, price) {
+            selected = name;
+            document.getElementById('order-bar').style.display = 'flex';
+            document.getElementById('order-text').innerText = "اختيارك: " + name;
+            // تأثير هز بسيط للزر للتنبيه
+            document.getElementById('order-bar').style.animation = 'shake 0.5s';
+            setTimeout(() => { document.getElementById('order-bar').style.animation = ''; }, 500);
         }
 
-        function sendOrder() {
-            const msg = `طلب جديد من Fit Fuel:%0A*البرنامج:* ${orderData.program}%0A*المدة:* ${orderData.plan}%0A*الإجمالي:* ${orderData.price} ريال`;
+        function finalOrder() {
+            const msg = `أنا مستعد للتحول مع Fit Fuel. %0A أود الاشتراك في: *${selected}* %0A الرجاء التواصل معي لبدء البرنامج.`;
             window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
         }
     </script>
+
+    <style>
+        @keyframes shake {
+            0% { transform: translateX(-50%) translateY(0); }
+            25% { transform: translateX(-52%) translateY(-5px); }
+            50% { transform: translateX(-48%) translateY(0); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+    </style>
 </body>
 </html>
-
-           
