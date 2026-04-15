@@ -4,182 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fit Fuel Sudan | فت فيول السودان</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #FF3C00; /* اللون البرتقالي من الشعار */
-            --dark: #1a1a1a;
-            --light: #ffffff;
-            --accent: #27ae60;
+            --primary: #22c55e; /* الأخضر الحيوي */
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f8fafc;
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fcfcfc;
+            background-color: var(--light);
             color: var(--dark);
         }
 
+        /* تنسيق الهيدر */
         header {
-            background: var(--dark);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .logo { font-size: 22px; font-weight: bold; }
-        .logo span { color: var(--primary); }
-
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero.png');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 5%;
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .hero h1 { font-size: 2.8rem; margin-bottom: 20px; }
-
-        .btn-main {
-            background: var(--primary);
+        .nav-link {
+            background: var(--dark);
             color: white;
-            padding: 15px 40px;
+            padding: 8px 18px;
             border-radius: 50px;
             text-decoration: none;
+            font-size: 14px;
             font-weight: bold;
-            font-size: 1.1rem;
-            display: inline-block;
-            transition: 0.3s;
         }
 
-        .btn-main:hover { transform: scale(1.05); background: #e63600; }
+        /* قسم الترحيب */
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+            background: radial-gradient(circle at top right, #dcfce7, transparent);
+        }
 
-        .section-title { text-align: center; margin: 50px 0 30px; font-size: 2rem; }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
 
-        /* حاسبة السعرات */
-        .calc-container {
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
             max-width: 600px;
-            margin: 40px auto;
+            margin: 0 auto 30px;
+        }
+
+        /* الحاسبة بتصميم حديث */
+        .card {
             background: white;
+            border-radius: 24px;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin: 20px auto;
+            max-width: 500px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
         }
 
         input, select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            box-sizing: border-box;
-        }
-
-        .calc-btn {
-            background: var(--dark);
-            color: white;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* الباقات */
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 0 5%;
-            margin-bottom: 50px;
-        }
-
-        .plan-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            border: 1px solid #eee;
-            text-decoration: none;
-            color: inherit;
+            padding: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Tajawal';
+            font-size: 16px;
+            outline: none;
             transition: 0.3s;
         }
 
-        .plan-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        input:focus { border-color: var(--primary); }
 
-        .plan-img { width: 100%; height: 200px; object-fit: cover; }
-        .plan-info { padding: 25px; }
-        .plan-price { font-size: 1.5rem; color: var(--primary); font-weight: bold; margin: 15px 0; }
+        .btn-calc {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 17px;
+            cursor: pointer;
+        }
 
-        footer { background: var(--dark); color: white; text-align: center; padding: 40px; margin-top: 50px; }
+        /* الباقات بتصميم البطاقات */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px 5%;
+        }
+
+        .meal-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid #f1f5f9;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .meal-card:hover { transform: translateY(-5px); }
+
+        .meal-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .meal-body { padding: 20px; text-align: right; }
+        .meal-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+        .meal-desc { color: var(--gray); font-size: 14px; margin-bottom: 15px; }
+        .meal-price { 
+            color: var(--primary); 
+            font-size: 22px; 
+            font-weight: 800; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #f1f5f9;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        #result { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">Fit <span>Fuel</span> Sudan</div>
-        <a href="https://wa.me/249930030078" style="color:white; text-decoration:none;">تواصل معنا</a>
+        <div class="logo">🥦 Fit Fuel Sudan</div>
+        <a href="https://wa.me/249930030078" class="nav-link">اطلب الآن</a>
     </header>
 
     <section class="hero">
-        <h1>وجباتك الصحية.. خيارك الأفضل 🥗</h1>
-        <p>نقدم لك أفضل الأنظمة الغذائية المحسوبة بدقة لتناسب أهدافك</p>
-        <br>
-        <a href="#plans" class="btn-main">اكتشف الباقات</a>
+        <h1>صحتك بلمسة ذكية 🇸🇩</h1>
+        <p>استمتع بوجبات صحية طازجة، محسوبة السعرات، وتصلك أينما كنت في السودان.</p>
+        
+        <div class="card">
+            <h3 style="margin-top:0">حاسبة احتياج الجسم ⚖️</h3>
+            <div class="input-group">
+                <input type="number" id="weight" placeholder="الوزن (كيلوجرام)">
+            </div>
+            <div class="input-group">
+                <input type="number" id="height" placeholder="الطول (سم)">
+            </div>
+            <div class="input-group">
+                <input type="number" id="age" placeholder="العمر">
+            </div>
+            <div class="input-group">
+                <select id="gender">
+                    <option value="male">ذكر</option>
+                    <option value="female">أنثى</option>
+                </select>
+            </div>
+            <button class="btn-calc" onclick="calc()">احسب الآن</button>
+            <div id="result"></div>
+        </div>
     </section>
 
-    <h2 class="section-title">حاسبة السعرات الذكية ⚖️</h2>
-    <div class="calc-container">
-        <input type="number" id="weight" placeholder="الوزن (كيلوجرام)">
-        <input type="number" id="height" placeholder="الطول (سم)">
-        <input type="number" id="age" placeholder="العمر">
-        <select id="gender">
-            <option value="male">ذكر</option>
-            <option value="female">أنثى</option>
-        </select>
-        <button class="calc-btn" onclick="calculateBMR()">احسب احتياجك</button>
-        <div id="result" style="margin-top: 20px; text-align: center; font-weight: bold; color: var(--primary);"></div>
-    </div>
+    <h2 style="text-align:center; margin-top:50px;">باقات الاشتراك المختارة 🔥</h2>
 
-    <h2 id="plans" class="section-title">باقاتنا المتوفرة 🔥</h2>
-    <div class="plans-grid">
-        <a href="https://wa.me/249930030078?text=أريد الاستفسار عن باقة الرشاقة (Loss)" class="plan-card">
-            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" class="plan-img">
-            <div class="plan-info">
-                <h3>باقة الرشاقة (Loss)</h3>
-                <p>مثالية لمن يرغب في خسارة الوزن بطريقة صحية ولذيذة.</p>
-                <div class="plan-price">4,500 SDG / يومياً</div>
-                <div class="btn-main" style="width: 80%; padding: 10px;">اطلب الآن</div>
+    <div class="grid">
+        <a href="https://wa.me/249930030078?text=أريد الاستفسار عن باقة الرشاقة (Loss)" class="meal-card">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600" class="meal-img">
+            <div class="meal-body">
+                <div class="meal-title">باقة الرشاقة (Loss) <span class="badge">الأكثر طلباً</span></div>
+                <p class="meal-desc">مثالية لخسارة الوزن، تحتوي على بروتين عالي وكربوهيدرات منخفضة جداً.</p>
+                <div class="meal-price">
+                    <span>4,500 SDG</span>
+                    <small style="color:var(--gray); font-size:12px;">يومياً</small>
+                </div>
             </div>
         </a>
 
-        <a href="https://wa.me/249930030078?text=أريد الاستفسار عن باقة الضخامة (Gain)" class="plan-card">
-            <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500" class="plan-img">
-            <div class="plan-info">
-                <h3>باقة الضخامة (Gain)</h3>
-                <p>وجبات غنية بالبروتين والكربوهيدرات لبناء العضلات.</p>
-                <div class="plan-price">6,000 SDG / يومياً</div>
-                <div class="btn-main" style="width: 80%; padding: 10px;">اطلب الآن</div>
+        <a href="https://wa.me/249930030078?text=أريد الاستفسار عن باقة الضخامة (Gain)" class="meal-card">
+            <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600" class="meal-img">
+            <div class="meal-body">
+                <div class="meal-title">باقة الضخامة (Gain)</div>
+                <p class="meal-desc">مصممة للرياضيين لبناء العضلات، تحتوي على سعرات وبروتين مرتفع.</p>
+                <div class="meal-price">
+                    <span>6,000 SDG</span>
+                    <small style="color:var(--gray); font-size:12px;">يومياً</small>
+                </div>
             </div>
         </a>
     </div>
 
     <footer>
         <p>Fit Fuel Sudan &copy; 2026</p>
-        <p>واتساب: 249930030078+</p>
+        <p>الرقم الرسمي: +249930030078</p>
     </footer>
 
     <script>
-        function calculateBMR() {
+        function calc() {
             const w = document.getElementById('weight').value;
             const h = document.getElementById('height').value;
             const a = document.getElementById('age').value;
@@ -190,9 +251,12 @@
                 let bmr = (g === 'male') ? 
                     (10 * w + 6.25 * h - 5 * a + 5) : 
                     (10 * w + 6.25 * h - 5 * a - 161);
-                res.innerHTML = "احتياجك اليومي هو " + Math.round(bmr) + " سعرة حرارية.";
+                res.style.display = "block";
+                res.style.background = "#dcfce7";
+                res.style.color = "#166534";
+                res.innerHTML = "أنت تحتاج إلى <strong>" + Math.round(bmr) + "</strong> سعرة حرارية يومياً.";
             } else {
-                res.innerHTML = "يرجى تعبئة كافة الحقول.";
+                alert("يرجى ملء كافة البيانات");
             }
         }
     </script>
