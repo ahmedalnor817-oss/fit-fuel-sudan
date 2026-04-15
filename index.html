@@ -1,12 +1,187 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>FitFuel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fit Fuel Elite | تجربة الغذاء النخبوية</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --gold: #c5a059;
+    --dark: #070707;
+    --card: #111;
+    --white: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Noto Kufi Arabic', sans-serif;
+    background: var(--dark);
+    color: white;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 8%;
+    background: rgba(0,0,0,0.9);
+    position: sticky;
+    top: 0;
+}
+
+.logo {
+    font-weight: 900;
+    color: var(--gold);
+    font-size: 22px;
+}
+
+.btn {
+    border: 1px solid var(--gold);
+    padding: 8px 15px;
+    border-radius: 10px;
+    color: var(--gold);
+    text-decoration: none;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+/* CALCULATOR */
+.calc {
+    max-width: 500px;
+    margin: auto;
+    background: rgba(255,255,255,0.03);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+input, select {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    background: black;
+    color: white;
+    border: 1px solid #333;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: var(--gold);
+    border: none;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 20px;
+    display: none;
+    color: var(--gold);
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid #222;
+}
+</style>
 </head>
+
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+
+<header>
+<div class="logo">FIT FUEL</div>
+<a href="https://wa.me/966563683212" class="btn">تواصل</a>
+</header>
+
+<section class="hero">
+<h1>صحتك تبدأ من <span>هنا</span></h1>
+
+<div class="calc">
+<h3>حاسبة السعرات 🔥</h3>
+
+<input type="number" id="w" placeholder="وزنك">
+<input type="number" id="h" placeholder="طولك">
+<input type="number" id="a" placeholder="عمرك">
+
+<select id="g">
+<option value="m">ذكر</option>
+<option value="f">أنثى</option>
+</select>
+
+<button onclick="calc()">احسب</button>
+
+<div id="result"></div>
+</div>
+</section>
+
+<section class="cards">
+<div class="card">
+<h3>🍗 باقة العضلات</h3>
+<p>بروتين عالي لبناء جسم قوي</p>
+</div>
+
+<div class="card">
+<h3>🥗 باقة الدايت</h3>
+<p>حرق دهون بشكل احترافي</p>
+</div>
+
+<div class="card">
+<h3>⚡ باقة الطاقة</h3>
+<p>أداء عالي للرياضيين</p>
+</div>
+</section>
+
+<footer>
+<p>© 2026 Fit Fuel Elite</p>
+</footer>
+
+<script>
+function calc(){
+let w = document.getElementById("w").value;
+let h = document.getElementById("h").value;
+let a = document.getElementById("a").value;
+let g = document.getElementById("g").value;
+let result = document.getElementById("result");
+
+if(w && h && a){
+let bmr = (g=="m") ? (10*w+6.25*h-5*a+5) : (10*w+6.25*h-5*a-161);
+result.style.display="block";
+result.innerHTML="احتياجك: "+Math.round(bmr)+" سعرة";
+}else{
+alert("املأ البيانات");
+}
+}
+</script>
+
 </body>
 </html>
