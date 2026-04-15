@@ -3,54 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | نظام الماكروز الدقيق</title>
+    <title>Fit Fuel Elite | نظام الطلب المتكامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #000000; --card: #111111; --white: #ffffff; --gray: #888; }
-        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        :root { --gold: #d4af37; --bg: #000; --card: #111; --white: #fff; }
+        * { box-sizing: border-box; transition: 0.3s ease; }
         body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--white); overflow-x: hidden; }
 
         header { background: rgba(0,0,0,0.95); padding: 20px 8%; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-weight: 900; font-size: 1.5rem; color: var(--gold); }
 
         .container { padding: 40px 8% 150px; }
-        .section-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 40px; text-align: center; color: var(--gold); }
+        .section-title { font-size: 2.2rem; font-weight: 900; margin: 60px 0 30px; text-align: right; color: var(--gold); border-right: 5px solid var(--gold); padding-right: 15px; }
 
-        /* ستايل الباقات المطور */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         
-        .package-card { 
-            background: var(--card); border-radius: 30px; overflow: hidden; border: 1px solid #222; 
-            position: relative; display: flex; flex-direction: column;
-        }
-        .package-card:hover { border-color: var(--gold); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1); }
+        .card { background: var(--card); border-radius: 30px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; }
+        .card:hover { border-color: var(--gold); transform: translateY(-10px); }
         
-        .img-wrapper { position: relative; height: 250px; }
-        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .price-badge { position: absolute; top: 20px; left: 20px; background: var(--gold); color: #000; padding: 10px 20px; border-radius: 50px; font-weight: 900; }
-
-        .package-content { padding: 25px; }
-        .package-content h3 { font-size: 1.8rem; margin: 0 0 15px; }
-
-        /* جدول الماكروز والكميات */
-        .macros-table { 
-            background: rgba(255,255,255,0.03); border-radius: 20px; padding: 15px; margin: 20px 0;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border: 1px dashed #333;
-        }
-        .macro-item { font-size: 0.85rem; color: var(--gray); }
-        .macro-item b { color: var(--white); font-size: 1rem; display: block; margin-top: 5px; }
-
-        .food-list { list-style: none; padding: 0; margin: 20px 0; border-top: 1px solid #222; padding-top: 15px; }
-        .food-list li { font-size: 0.9rem; color: #bbb; margin-bottom: 8px; display: flex; align-items: center; }
-        .food-list li::before { content: "✔"; color: var(--gold); margin-left: 10px; font-weight: bold; }
-
-        .btn-order { background: var(--gold); color: #000; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 1.1rem; }
+        .img-box { height: 220px; position: relative; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
         
-        /* قسم البيع الفردي */
-        .individual-section { margin-top: 80px; }
-        .gram-box { display: flex; gap: 10px; margin-top: 15px; }
-        .gram-btn { flex: 1; background: transparent; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 10px; cursor: pointer; }
-        .gram-btn.active { background: var(--gold); color: #000; font-weight: 900; }
+        .card-body { padding: 25px; }
+        .card-body h3 { margin: 0 0 10px; font-size: 1.5rem; }
+
+        /* ستايل مخصص للعروض الفردية (الجرامات) */
+        .customizer { background: #181818; padding: 15px; border-radius: 20px; margin-top: 15px; border: 1px solid #333; }
+        .customizer label { display: block; font-size: 0.8rem; color: var(--gold); margin-bottom: 8px; font-weight: 700; }
+        
+        .gram-group { display: flex; gap: 5px; margin-bottom: 15px; }
+        .g-btn { flex: 1; background: transparent; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; }
+        .g-btn.active { background: var(--gold); color: #000; font-weight: 900; border-color: var(--gold); }
+
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #222; }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+
+        .btn-order { background: var(--gold); color: #000; padding: 12px 30px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; width: 100%; }
+        
+        /* شريط الطلب السفلي */
+        .floating-footer { position: fixed; bottom: 0; width: 100%; background: #000; padding: 20px 8%; border-top: 2px solid var(--gold); z-index: 2000; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
@@ -62,92 +53,79 @@
 
     <div class="container">
         
-        <h2 class="section-title">باقات النخبة الشهرية</h2>
-        
+        <h2 class="section-title">صمم وجبتك الفردية الآن</h2>
         <div class="grid">
-            <div class="package-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600">
-                    <div class="price-badge">1,750 ريال</div>
-                </div>
-                <div class="package-content">
-                    <h3>باقة الرشاقة (Weight Loss)</h3>
-                    <p style="color: #888; font-size: 0.9rem;">صممت للتخلص من الدهون بنظام غذائي متوازن.</p>
+            
+            <div class="card">
+                <div class="img-box"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600"></div>
+                <div class="card-body">
+                    <h3>وجبة الأداء (ستيك)</h3>
+                    <p style="font-size: 0.8rem; color: #888;">اختر جراماتك المفضلة لبناء وجبتك المتكاملة:</p>
                     
-                    <div class="macros-table">
-                        <div class="macro-item">بروتين يومي <b>120g - 140g</b></div>
-                        <div class="macro-item">كربوهيدرات <b>100g - 120g</b></div>
-                        <div class="macro-item">دهون صحية <b>40g - 50g</b></div>
-                        <div class="macro-item">السعرات <b>1300 - 1500</b></div>
-                    </div>
+                    <div class="customizer">
+                        <label>كمية البروتين (ستيك):</label>
+                        <div class="gram-group">
+                            <button class="g-btn active" onclick="sel(this, 'p1', '150g')">150g</button>
+                            <button class="g-btn" onclick="sel(this, 'p1', '200g')">200g</button>
+                            <button class="g-btn" onclick="sel(this, 'p1', '250g')">250g</button>
+                        </div>
 
-                    <ul class="food-list">
-                        <li>صدور دجاج (150g) / سمك فيليه (150g)</li>
-                        <li>أرز بسمتي أو بطاطس حلوة (100g)</li>
-                        <li>سلطات خضراء متنوعة مفتوحة</li>
-                        <li>سناك صحي يومي (فواكه أو مكسرات)</li>
-                    </ul>
-                    <button class="btn-order" onclick="order('باقة الرشاقة الشهرية')">اشترك الآن</button>
+                        <label>كمية الكارب (أرز/بطاطس):</label>
+                        <div class="gram-group">
+                            <button class="g-btn active" onclick="sel(this, 'c1', '100g')">100g</button>
+                            <button class="g-btn" onclick="sel(this, 'c1', '150g')">150g</button>
+                            <button class="g-btn" onclick="sel(this, 'c1', '200g')">200g</button>
+                        </div>
+                    </div>
+                    
+                    <div class="price-row">
+                        <span class="price">75 ريال</span>
+                        <button class="btn-order" onclick="sendCustom('ستيك الأداء')">اطلب الآن</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="package-card">
-                <div class="img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600">
-                    <div class="price-badge">2,350 ريال</div>
-                </div>
-                <div class="package-content">
-                    <h3>باقة الضخامة (Mass Gain)</h3>
-                    <p style="color: #888; font-size: 0.9rem;">غنية بالبروتين والأحماض الأمينية لنمو العضلات.</p>
+            <div class="card">
+                <div class="img-box"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600"></div>
+                <div class="card-body">
+                    <h3>وجبة الرشاقة (دجاج)</h3>
+                    <p style="font-size: 0.8rem; color: #888;">وجبة خفيفة ومحسوبة بدقة لموازنة يومك:</p>
                     
-                    <div class="macros-table">
-                        <div class="macro-item">بروتين يومي <b>180g - 210g</b></div>
-                        <div class="macro-item">كربوهيدرات <b>200g - 250g</b></div>
-                        <div class="macro-item">دهون صحية <b>60g - 70g</b></div>
-                        <div class="macro-item">السعرات <b>2500 - 2800</b></div>
+                    <div class="customizer">
+                        <label>كمية البروتين (دجاج):</label>
+                        <div class="gram-group">
+                            <button class="g-btn active" onclick="sel(this, 'p2', '150g')">150g</button>
+                            <button class="g-btn" onclick="sel(this, 'p2', '200g')">200g</button>
+                            <button class="g-btn" onclick="sel(this, 'p2', '250g')">250g</button>
+                        </div>
+
+                        <label>كمية الكارب (أرز/بطاطس):</label>
+                        <div class="gram-group">
+                            <button class="g-btn active" onclick="sel(this, 'c2', '100g')">100g</button>
+                            <button class="g-btn" onclick="sel(this, 'c2', '150g')">150g</button>
+                            <button class="g-btn" onclick="sel(this, 'c2', '200g')">200g</button>
+                        </div>
                     </div>
 
-                    <ul class="food-list">
-                        <li>ستيك بقري (200g) / دجاج مشوي (200g)</li>
-                        <li>أرز / كينوا / مكرونة سمراء (200g)</li>
-                        <li>خضار سوتيه مدعم بالألياف</li>
-                        <li>وجبة إضافية قبل التمرين (كارب سريع)</li>
-                    </ul>
-                    <button class="btn-order" onclick="order('باقة بناء العضلات PRO')">اشترك الآن</button>
+                    <div class="price-row">
+                        <span class="price">55 ريال</span>
+                        <button class="btn-order" onclick="sendCustom('دجاج الرشاقة')">اطلب الآن</button>
+                    </div>
                 </div>
             </div>
+
         </div>
 
-        <div class="individual-section">
-            <h2 class="section-title">طلب وجبات فردية (بالجرام)</h2>
-            <div class="grid">
-                <div class="package-card">
-                    <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600">
-                    </div>
-                    <div class="package-content">
-                        <h3>ستيك أنجوس فاخر</h3>
-                        <p style="color:#888;">حدد كمية البروتين المطلوبة:</p>
-                        <div class="gram-box">
-                            <button class="gram-btn" onclick="selectGram(this, 'ستيك', 150)">150g</button>
-                            <button class="gram-btn" onclick="selectGram(this, 'ستيك', 200)">200g</button>
-                            <button class="gram-btn" onclick="selectGram(this, 'ستيك', 250)">250g</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="package-card">
-                    <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600">
-                    </div>
-                    <div class="package-content">
-                        <h3>سلمون نرويجي</h3>
-                        <p style="color:#888;">حدد كمية البروتين المطلوبة:</p>
-                        <div class="gram-box">
-                            <button class="gram-btn" onclick="selectGram(this, 'سلمون', 150)">150g</button>
-                            <button class="gram-btn" onclick="selectGram(this, 'سلمون', 200)">200g</button>
-                            <button class="gram-btn" onclick="selectGram(this, 'سلمون', 250)">250g</button>
-                        </div>
+        <h2 class="section-title">الاشتراكات الشهرية</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-box"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600"></div>
+                <div class="card-body">
+                    <h3>باقة الرشاقة الكاملة</h3>
+                    <p style="font-size: 0.8rem; color: #888;">24 يوم - 3 وجبات يومياً مع الماكروز.</p>
+                    <div class="price-row">
+                        <span class="price">1,750 ريال</span>
+                        <button class="btn-order" onclick="orderPkg('باقة الرشاقة')">اشترك</button>
                     </div>
                 </div>
             </div>
@@ -156,18 +134,24 @@
     </div>
 
     <script>
-        let selectedGrams = {};
+        let choices = {};
 
-        function selectGram(btn, meal, g) {
-            const btns = btn.parentElement.querySelectorAll('.gram-btn');
-            btns.forEach(b => b.classList.remove('active'));
+        function sel(btn, group, val) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.g-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            selectedGrams[meal] = g;
+            choices[group] = val;
         }
 
-        function order(pkgName) {
-            const text = `طلب اشتراك جديد: *${pkgName}*%0Aالرجاء تزويدي بتفاصيل السداد وبدء البرنامج.`;
-            window.open(`https://wa.me/966563683212?text=${text}`, '_blank');
+        function sendCustom(mealName) {
+            let msg = `طلب وجبة فردية مخصصة: *${mealName}*%0A`;
+            msg += `البروتين: ${choices['p1'] || choices['p2'] || '150g'}%0A`;
+            msg += `الكارب: ${choices['c1'] || choices['c2'] || '100g'}`;
+            window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
+        }
+
+        function orderPkg(name) {
+            window.open(`https://wa.me/966563683212?text=أود الاشتراك في ${name}`, '_blank');
         }
     </script>
 </body>
