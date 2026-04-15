@@ -3,158 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit Fuel Elite | أفضل الأسعار</title>
+    <title>Fit Fuel Elite | المنصة المتكاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --brand: #d4af37; --bg: #f8f9fa; --dark: #1a1a1a; --white: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--dark); }
+        :root { --brand: #d4af37; --bg: #0a0a0a; --card: #161616; --white: #ffffff; --green: #27ae60; }
+        * { box-sizing: border-box; transition: 0.3s ease; }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; margin: 0; background: var(--bg); color: var(--white); }
 
-        /* شاشة الباقات */
-        #onboarding {
-            position: fixed; inset: 0; background: var(--white); z-index: 5000;
-            display: flex; flex-direction: column; padding: 40px 8%; overflow-y: auto;
-        }
-        .step-title { font-size: 1.8rem; font-weight: 900; text-align: center; margin-bottom: 30px; }
+        header { background: #000; padding: 25px 8%; border-bottom: 2px solid var(--brand); text-align: center; position: sticky; top: 0; z-index: 1000; }
         
+        /* نظام التبويبات */
+        .main-tabs { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .tab-link { 
+            padding: 12px 30px; border-radius: 50px; border: 1px solid #333; 
+            background: #111; color: #fff; cursor: pointer; font-weight: 700;
+        }
+        .tab-link.active { background: var(--brand); color: #000; border-color: var(--brand); }
+
+        .container { padding: 0 8% 150px; display: none; }
+        .container.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .section-title { color: var(--brand); border-right: 4px solid var(--brand); padding-right: 15px; margin: 40px 0 20px; font-size: 1.4rem; }
+
+        /* ستايل البطاقات الفردية (الجرامات) */
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .item-card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #222; }
+        .gram-btn { 
+            flex: 1; padding: 8px; border: 1px solid #444; border-radius: 10px; 
+            background: transparent; color: #fff; cursor: pointer; font-size: 0.8rem; margin: 5px 2px;
+        }
+        .gram-btn.active { background: var(--brand); color: #000; font-weight: bold; }
+
+        /* ستايل الباقات والعروض */
         .package-card {
-            background: #fff; border: 2px solid #eee; border-radius: 25px;
-            padding: 25px; margin-bottom: 20px; cursor: pointer; transition: 0.3s;
+            background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #333;
+            border-radius: 30px; padding: 30px; margin-bottom: 25px; position: relative;
+            overflow: hidden; border-right: 8px solid var(--brand);
         }
-        .package-card:hover, .package-card.selected { border-color: var(--brand); background: #fefcf5; transform: scale(1.02); }
-        .package-card h3 { margin: 0; color: var(--brand); font-size: 1.4rem; }
-        .package-card p { margin: 10px 0; color: #666; font-size: 0.9rem; }
-        .package-price { font-weight: 900; font-size: 1.3rem; color: #27ae60; } /* لون أخضر للسعر الجذاب */
+        .package-price { font-size: 1.8rem; font-weight: 900; color: var(--green); margin: 15px 0; }
+        .offer-badge { position: absolute; top: 20px; left: -30px; background: red; color: #fff; padding: 5px 40px; transform: rotate(-45deg); font-size: 0.7rem; font-weight: 900; }
 
-        .btn-confirm { 
-            background: var(--dark); color: #fff; width: 100%; padding: 20px; 
-            border-radius: 20px; border: none; font-weight: 900; cursor: pointer; 
-            font-size: 1.1rem; margin-top: 10px;
+        /* شريط الطلب السفلي */
+        .order-bar {
+            position: fixed; bottom: 0; width: 100%; background: #000;
+            padding: 20px 8%; border-top: 2px solid var(--brand);
+            display: flex; justify-content: space-between; align-items: center; z-index: 2000;
         }
-
-        header { background: #fff; padding: 15px 8%; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;}
-        .container { padding: 20px 8% 120px; }
-
-        .meal-card {
-            background: #fff; border-radius: 25px; margin-bottom: 20px; overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative;
-        }
-        .meal-img { width: 100%; height: 200px; object-fit: cover; }
-        .meal-body { padding: 20px; }
-        
-        .add-btn {
-            position: absolute; top: 15px; left: 15px; background: var(--brand);
-            width: 45px; height: 45px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; cursor: pointer; color: #000; font-weight: 900;
-        }
-
-        .bottom-bar {
-            position: fixed; bottom: 0; width: 100%; background: #fff;
-            padding: 20px 8%; border-top: 1px solid #eee; display: flex;
-            justify-content: space-between; align-items: center; z-index: 2000;
-        }
+        .btn-order { background: var(--brand); color: #000; padding: 15px 45px; border-radius: 15px; border: none; font-weight: 900; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="onboarding">
-        <h1 style="text-align: center; color: var(--brand);">FIT<span>FUEL</span></h1>
-        <div class="step-title">باقاتنا الاقتصادية الجديدة 🇸🇦</div>
-
-        <div class="package-card" onclick="selectPackage('الباقة الاقتصادية', 55, 'وجبتين يومياً')">
-            <h3>⚡ الباقة الاقتصادية</h3>
-            <p>مثالية للموظفين والطلاب.</p>
-            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>وجبتين (غداء + عشاء)</li></ul>
-            <div class="package-price">55 ريال / يومياً</div>
-        </div>
-
-        <div class="package-card" onclick="selectPackage('خسارة الوزن', 75, '3 وجبات يومياً')">
-            <h3>🥗 باقة الرشاقة</h3>
-            <p>الأكثر مبيعاً للتحكم بالوزن.</p>
-            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>3 وجبات متكاملة (فطور + غداء + عشاء)</li></ul>
-            <div class="package-price">75 ريال / يومياً</div>
-        </div>
-
-        <div class="package-card" onclick="selectPackage('بناء العضلات', 95, '3 وجبات + سناك')">
-            <h3>💪 باقة الضخامة</h3>
-            <p>وجبات غنية بالبروتين للرياضيين.</p>
-            <ul style="padding-right: 20px; font-size: 0.85rem;"><li>3 وجبات + سناك صحي + حصة بروتين إضافية</li></ul>
-            <div class="package-price">95 ريال / يومياً</div>
-        </div>
-
-        <button class="btn-confirm" id="startBtn" style="display: none;" onclick="showMenu()">استعراض المنيو</button>
-    </div>
-
     <header>
-        <div id="activePackage" style="font-weight: 700;">اختر باقة</div>
-        <div style="color: var(--brand); font-weight: 900;">0563683212</div>
+        <h1 style="margin:0;">FIT<span>FUEL</span> ELITE</h1>
+        <div class="main-tabs">
+            <button class="tab-link active" onclick="openTab(event, 'custom-tab')">فصل وجبتك (بالجرام)</button>
+            <button class="tab-link" onclick="openTab(event, 'packages-tab')">الباقات والعروض</button>
+        </div>
     </header>
 
-    <div class="container">
-        <h2 style="margin-bottom: 25px;">اختر منيو اليوم 🥗</h2>
-        <div id="mealsGrid"></div>
+    <div id="custom-tab" class="container active">
+        <div class="section-title">1. مصادر البروتين والأحماض</div>
+        <div class="items-grid" id="protein-grid"></div>
+
+        <div class="section-title">2. مصادر الكربوهيدرات</div>
+        <div class="items-grid" id="carb-grid"></div>
+
+        <div class="section-title">3. الدهون الصحية والألياف</div>
+        <div class="items-grid" id="fat-grid"></div>
     </div>
 
-    <div class="bottom-bar">
-        <div>
-            <div style="font-size: 0.8rem; color: #888;">سعر الاشتراك اليومي</div>
-            <div style="font-size: 1.4rem; font-weight: 900; color: #27ae60;" id="totalDisplay">0 ريال</div>
+    <div id="packages-tab" class="container">
+        <div class="section-title">باقات الاشتراك الشهرية (توفير أكثر)</div>
+        
+        <div class="package-card" onclick="selectPackage('باقة الرشاقة الشهرية', '1,850')">
+            <div class="offer-badge">الأكثر طلباً</div>
+            <h3>🥗 باقة الرشاقة الشهرية</h3>
+            <p>3 وجبات يومياً لمدة 24 يوم (بدون جمعة).</p>
+            <div class="package-price">1,850 ريال</div>
+            <small style="color: #888;">* السعر يشمل التوصيل والاستشارة الغذائية</small>
         </div>
-        <button class="btn-confirm" style="width: auto; padding: 15px 30px; background: #27ae60;" onclick="sendOrder()">اشترك الآن</button>
+
+        <div class="package-card" onclick="selectPackage('باقة بناء العضلات PRO', '2,400')">
+            <h3>💪 باقة بناء العضلات PRO</h3>
+            <p>3 وجبات + سناك + وجبة ما بعد التمرين.</p>
+            <div class="package-price">2,400 ريال</div>
+            <small style="color: #888;">* مخصصة للرياضيين مع نسب بروتين عالية</small>
+        </div>
+
+        <div class="package-card" onclick="selectPackage('عرض وجبتين الموظف', '1,450')">
+            <h3>⚡ عرض الموظف الاقتصادي</h3>
+            <p>وجبتين (غداء + عشاء) متكاملة يومياً.</p>
+            <div class="package-price">1,450 ريال</div>
+        </div>
+    </div>
+
+    <div class="order-bar">
+        <div id="summary">الطلب: <span id="selection-info">تصفح المنيو الآن</span></div>
+        <button class="btn-order" onclick="sendWhatsApp()">اطلب الآن عبر الواتساب</button>
     </div>
 
     <script>
-        const meals = [
-            { id: 1, name: "سلمون نرويجي مشوي", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" },
-            { id: 2, name: "دجاج كاري خفيف", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
-            { id: 3, name: "ستيك لحم بصوص المشروم", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500" },
-            { id: 4, name: "سلطة كينوا مكسيكية", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500" },
-            { id: 5, name: "سلطة تونة بالذرة", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" }
-        ];
+        const customMenu = {
+            protein: ["صدور دجاج مشوية", "ستيك أنجوس", "سلمون نرويجي", "روبيان عالي البروتين"],
+            carb: ["أرز بسمتي", "بطاطس حلوة", "كينوا عضوية", "مكرونة سمراء"],
+            fat: ["أفوكادو طازج", "مكسرات نيئة", "زيت زيتون بكر", "زبادي يوناني"]
+        };
 
-        let selectedPackage = { name: '', price: 0, details: '' };
-        let selectedMeals = new Set();
+        let currentOrder = { type: 'custom', items: {}, packageName: '' };
 
-        function selectPackage(name, price, details) {
-            selectedPackage = { name, price, details };
-            document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            document.getElementById('startBtn').style.display = 'block';
-            document.getElementById('totalDisplay').innerText = price + " ريال";
+        function openTab(evt, tabName) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            currentOrder.type = (tabName === 'custom-tab') ? 'custom' : 'package';
+            updateSummary();
         }
 
-        function showMenu() {
-            document.getElementById('onboarding').style.display = 'none';
-            document.getElementById('activePackage').innerText = selectedPackage.name;
-            renderMeals();
-        }
-
-        function renderMeals() {
-            const grid = document.getElementById('mealsGrid');
-            grid.innerHTML = meals.map(m => `
-                <div class="meal-card" onclick="toggleMeal('${m.name}')">
-                    <div class="add-btn">${selectedMeals.has(m.name) ? '✓' : '+'}</div>
-                    <img src="${m.img}" class="meal-img">
-                    <div class="meal-body">
-                        <h3 style="margin:0;">${m.name}</h3>
-                        <p style="font-size:0.8rem; color:#888;">سعرات محسوبة بدقة</p>
+        function renderCustom(sectionId, list) {
+            const grid = document.getElementById(sectionId);
+            grid.innerHTML = list.map(name => `
+                <div class="item-card">
+                    <div style="font-weight:700; margin-bottom:10px;">${name}</div>
+                    <div style="display:flex; flex-wrap:wrap;">
+                        <button class="gram-btn" onclick="setGram('${name}', 100, this)">100g</button>
+                        <button class="gram-btn" onclick="setGram('${name}', 150, this)">150g</button>
+                        <button class="gram-btn" onclick="setGram('${name}', 200, this)">200g</button>
+                        <button class="gram-btn" onclick="setGram('${name}', 0, this)">إلغاء</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function toggleMeal(name) {
-            if(selectedMeals.has(name)) selectedMeals.delete(name);
-            else selectedMeals.add(name);
-            renderMeals();
+        function setGram(name, g, btn) {
+            const btns = btn.parentElement.querySelectorAll('.gram-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            if(g > 0) {
+                btn.classList.add('active');
+                currentOrder.items[name] = g;
+            } else {
+                delete currentOrder.items[name];
+            }
+            updateSummary();
         }
 
-        function sendOrder() {
-            if(selectedMeals.size === 0) return alert("فضلاً اختر وجبة واحدة على الأقل");
-            const mealsList = Array.from(selectedMeals).join('%0A- ');
-            const text = `طلب اشتراك جديد من الموقع:%0A%0A*الباقة:* ${selectedPackage.name}%0A*التكلفة:* ${selectedPackage.price} ريال/يوم%0A%0A*الوجبات المختارة:*%0A- ${mealsList}`;
-            window.open(`https://wa.me/966563683212?text=${text}`, '_blank');
+        function selectPackage(name, price) {
+            currentOrder.packageName = name;
+            currentOrder.packagePrice = price;
+            // تمييز بصري للباقة المختارة
+            document.querySelectorAll('.package-card').forEach(p => p.style.borderColor = '#333');
+            event.currentTarget.style.borderColor = 'var(--brand)';
+            updateSummary();
         }
+
+        function updateSummary() {
+            const info = document.getElementById('selection-info');
+            if(currentOrder.type === 'custom') {
+                let count = Object.keys(currentOrder.items).length;
+                info.innerText = count > 0 ? `${count} أصناف بالجرام` : "بانتظار اختيارك للجرامات";
+            } else {
+                info.innerText = currentOrder.packageName ? `باقة: ${currentOrder.packageName}` : "اختر باقتك المفضلة";
+            }
+        }
+
+        function sendWhatsApp() {
+            let msg = "";
+            if(currentOrder.type === 'custom') {
+                if(Object.keys(currentOrder.items).length === 0) return alert("اختر الجرامات أولاً");
+                msg = "*طلب وجبة فردية (تفصيل جرامات):*%0A";
+                for (const [n, g] of Object.entries(currentOrder.items)) msg += `• ${n}: ${g}g%0A`;
+            } else {
+                if(!currentOrder.packageName) return alert("اختر الباقة المطلوبة أولاً");
+                msg = `*طلب اشتراك باقة عروض:*%0Aالباقة: ${currentOrder.packageName}%0Aالسعر: ${currentOrder.packagePrice} ريال`;
+            }
+            window.open(`https://wa.me/966563683212?text=${msg}`, '_blank');
+        }
+
+        renderCustom('protein-grid', customMenu.protein);
+        renderCustom('carb-grid', customMenu.carb);
+        renderCustom('fat-grid', customMenu.fat);
     </script>
 </body>
 </html>
