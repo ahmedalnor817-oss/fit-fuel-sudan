@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diet Program</title>
+<title>Diet Pro</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
@@ -12,22 +12,23 @@ body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
     direction: rtl;
+    background: #fafafa;
 }
 
 /* Navbar */
 .nav {
-    background: white;
-    padding: 15px 40px;
     position: fixed;
     width: 100%;
-    top: 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding: 15px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     z-index: 1000;
 }
 
 /* Hero */
 .hero {
-    height: 90vh;
+    height: 100vh;
     background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover;
     display: flex;
     align-items: center;
@@ -35,29 +36,42 @@ body {
 }
 
 .overlay {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
+    padding: 50px;
     color: white;
-    padding: 40px;
     text-align: center;
+    border-radius: 20px;
+    animation: fadeIn 1s ease;
 }
 
-/* Programs */
-.container {
-    padding: 100px 40px;
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(30px);}
+    to {opacity:1;}
 }
 
+/* Section */
+.section {
+    padding: 80px 40px;
+}
+
+/* Cards */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
+    gap: 25px;
 }
 
 .card {
     position: relative;
     height: 320px;
+    border-radius: 20px;
     overflow: hidden;
-    border-radius: 15px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
 }
 
 .card img {
@@ -69,75 +83,91 @@ body {
 .card-overlay {
     position: absolute;
     bottom: 0;
-    color: white;
     padding: 20px;
-    background: linear-gradient(to top, black, transparent);
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
 /* Subscription */
 .subscription {
-    background: #f5f5f5;
-    padding: 50px 20px;
     text-align: center;
 }
 
 .plans button {
     margin: 10px;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     background: #00b894;
     color: white;
+    border-radius: 10px;
     cursor: pointer;
-    border-radius: 8px;
 }
 
 .pricing {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
 }
 
 .price-card {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 200px;
+    padding: 25px;
+    border-radius: 15px;
+    width: 220px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
-/* Button */
+.price-card:hover {
+    transform: translateY(-10px);
+}
+
 .btn {
     background: #00b894;
     color: white;
     padding: 10px;
     border: none;
     margin-top: 10px;
-    cursor: pointer;
     border-radius: 8px;
+    cursor: pointer;
 }
-</style>
 
+/* Animation Scroll */
+.hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="nav">
-    <h2>DIET</h2>
+    <h2>DIET PRO</h2>
 </div>
 
 <!-- Hero -->
 <div class="hero">
     <div class="overlay">
-        <h1>وجبات صحية جاهزة</h1>
-        <p>اختر برنامجك وابدأ اليوم</p>
+        <h1>نظامك الغذائي يبدأ هنا</h1>
+        <p>وجبات صحية جاهزة توصلك يومياً</p>
     </div>
 </div>
 
 <!-- Programs -->
-<div class="container">
+<div class="section hidden">
     <h2>برامجنا</h2>
 
     <div class="grid">
+
         <div class="card">
             <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
             <div class="card-overlay">
@@ -161,11 +191,12 @@ body {
                 <p>حرق الدهون</p>
             </div>
         </div>
+
     </div>
 </div>
 
 <!-- Subscription -->
-<div class="subscription">
+<div class="section subscription hidden">
     <h2>اختر اشتراكك</h2>
 
     <div class="plans">
@@ -175,7 +206,6 @@ body {
     </div>
 
     <div class="pricing">
-
         <div class="price-card">
             <h3>أسبوع</h3>
             <p id="weekPrice">650 ريال</p>
@@ -187,7 +217,6 @@ body {
             <p id="monthPrice">2200 ريال</p>
             <button class="btn" onclick="order('شهر')">اشترك</button>
         </div>
-
     </div>
 </div>
 
@@ -198,21 +227,31 @@ function setPlan(plan) {
     currentPlan = plan;
 
     if(plan === "full") {
-        document.getElementById("weekPrice").innerText = "650 ريال";
-        document.getElementById("monthPrice").innerText = "2200 ريال";
+        weekPrice.innerText = "650 ريال";
+        monthPrice.innerText = "2200 ريال";
     } else {
-        document.getElementById("weekPrice").innerText = "500 ريال";
-        document.getElementById("monthPrice").innerText = "1800 ريال";
+        weekPrice.innerText = "500 ريال";
+        monthPrice.innerText = "1800 ريال";
     }
 }
 
 function order(type) {
-    let price = document.getElementById(type === 'أسبوع' ? "weekPrice" : "monthPrice").innerText;
+    let price = type === "أسبوع" ? weekPrice.innerText : monthPrice.innerText;
 
-    let message = `مرحبا، اريد الاشتراك (${type}) في خطة ${currentPlan} بسعر ${price}`;
-    
-    window.open(`https://wa.me/966XXXXXXXXX?text=${encodeURIComponent(message)}`);
+    let msg = `مرحبا، اريد الاشتراك (${type}) خطة ${currentPlan} بسعر ${price}`;
+    window.open(`https://wa.me/966XXXXXXXXX?text=${encodeURIComponent(msg)}`);
 }
+
+/* Scroll Animation */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+document.querySelectorAll(".hidden").forEach(el => observer.observe(el));
 </script>
 
 </body>
