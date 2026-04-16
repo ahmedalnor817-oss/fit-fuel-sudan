@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diet Pro</title>
+<title>Diet Pro Max</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
@@ -21,19 +21,15 @@ body {
     width: 100%;
     background: white;
     padding: 15px 30px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
     display: flex;
     justify-content: space-between;
-}
-
-.cart-icon {
-    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
 }
 
 /* HERO */
 .hero {
-    height: 100vh;
+    height: 90vh;
     background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover;
     display: flex;
     align-items: center;
@@ -42,8 +38,8 @@ body {
 
 .overlay {
     background: rgba(0,0,0,0.6);
+    padding: 40px;
     color: white;
-    padding: 50px;
     border-radius: 15px;
     text-align: center;
 }
@@ -53,34 +49,31 @@ body {
     padding: 80px 30px;
 }
 
-/* CARDS */
-.grid {
+/* MEALS */
+.meals {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 15px;
 }
 
-.card {
+.meal {
     background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid transparent;
 }
 
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.meal.active {
+    border-color: green;
 }
 
-.card-content {
-    padding: 15px;
-}
-
+/* BUTTON */
 .btn {
     background: #00b894;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -89,53 +82,29 @@ body {
 /* CART */
 .cart {
     position: fixed;
-    top: 0;
     right: -100%;
+    top: 0;
     width: 300px;
     height: 100%;
     background: white;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
     padding: 20px;
-    transition: 0.4s;
-    overflow-y: auto;
+    transition: 0.3s;
 }
 
 .cart.active {
     right: 0;
 }
 
-/* REVIEWS */
-.review {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-/* FEATURES */
-.features {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.feature {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    flex: 1;
-}
-
-/* FLOAT WHATSAPP */
+/* WHATS */
 .whatsapp {
     position: fixed;
     bottom: 20px;
     left: 20px;
     background: #25D366;
-    color: white;
     padding: 15px;
     border-radius: 50%;
+    color: white;
     cursor: pointer;
-    font-size: 20px;
 }
 </style>
 </head>
@@ -143,100 +112,88 @@ body {
 <body>
 
 <div class="nav">
-    <h2>DIET PRO</h2>
-    <div class="cart-icon" onclick="toggleCart()">🛒</div>
+    <h2>DIET PRO MAX</h2>
+    <div onclick="toggleCart()">🛒</div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
     <div class="overlay">
-        <h1>ابدأ نظامك الغذائي الآن</h1>
-        <p>وجبات صحية توصلك يومياً</p>
+        <h1>اختر وجباتك بنفسك 🔥</h1>
+        <p>نظام غذائي مخصص لك</p>
     </div>
 </div>
 
-<!-- FEATURES -->
+<!-- MEALS -->
 <div class="section">
-    <h2>لماذا نحن؟</h2>
-    <div class="features">
-        <div class="feature">🚚 توصيل يومي</div>
-        <div class="feature">🥗 وجبات صحية</div>
-        <div class="feature">🔥 نتائج سريعة</div>
+    <h2>اختر وجباتك</h2>
+
+    <div class="meals">
+
+        <div class="meal" onclick="selectMeal(this,'فطور صحي')">🥚 فطور صحي</div>
+        <div class="meal" onclick="selectMeal(this,'غداء دجاج')">🍗 غداء دجاج</div>
+        <div class="meal" onclick="selectMeal(this,'عشاء خفيف')">🥗 عشاء خفيف</div>
+        <div class="meal" onclick="selectMeal(this,'وجبة بروتين')">💪 بروتين</div>
+
     </div>
-</div>
 
-<!-- PROGRAMS -->
-<div class="section">
-    <h2>البرامج</h2>
-
-    <div class="grid">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
-            <div class="card-content">
-                <h3>وازن</h3>
-                <p>650 ريال / أسبوع</p>
-                <button class="btn" onclick="addToCart('وازن',650)">أضف للسلة</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
-            <div class="card-content">
-                <h3>بروتين</h3>
-                <p>700 ريال / أسبوع</p>
-                <button class="btn" onclick="addToCart('بروتين',700)">أضف للسلة</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- REVIEWS -->
-<div class="section">
-    <h2>آراء العملاء</h2>
-    <div class="grid">
-        <div class="review">⭐️⭐️⭐️⭐️⭐️ ممتاز جداً</div>
-        <div class="review">⭐️⭐️⭐️⭐️ خسيت 5 كيلو</div>
-    </div>
+    <br>
+    <button class="btn" onclick="addMeals()">أضف للسلة</button>
 </div>
 
 <!-- CART -->
 <div class="cart" id="cart">
     <h3>سلة الطلبات</h3>
     <div id="cartItems"></div>
-    <h4 id="total">المجموع: 0</h4>
-    <button class="btn" onclick="checkout()">إتمام الطلب</button>
+    <h4 id="total">0 ريال</h4>
+
+    <button class="btn" onclick="pay()">💳 الدفع</button>
 </div>
 
-<!-- WHATSAPP -->
+<!-- WHATS -->
 <div class="whatsapp" onclick="openWhats()">💬</div>
 
 <script>
+let selectedMeals = [];
 let cart = [];
+
+function selectMeal(el,name){
+    el.classList.toggle("active");
+
+    if(selectedMeals.includes(name)){
+        selectedMeals = selectedMeals.filter(m=>m!==name);
+    } else {
+        selectedMeals.push(name);
+    }
+}
+
+function addMeals(){
+    selectedMeals.forEach(m=>{
+        cart.push({name:m,price:50});
+    });
+    renderCart();
+}
+
+function renderCart(){
+    let html = "";
+    let total = 0;
+
+    cart.forEach(i=>{
+        html += `<p>${i.name} - ${i.price} ريال</p>`;
+        total += i.price;
+    });
+
+    document.getElementById("cartItems").innerHTML = html;
+    document.getElementById("total").innerText = total + " ريال";
+}
 
 function toggleCart(){
     document.getElementById("cart").classList.toggle("active");
 }
 
-function addToCart(name,price){
-    cart.push({name,price});
-    renderCart();
-}
-
-function renderCart(){
-    let items = document.getElementById("cartItems");
-    items.innerHTML = "";
-    let total = 0;
-
-    cart.forEach(item=>{
-        items.innerHTML += `<p>${item.name} - ${item.price} ريال</p>`;
-        total += item.price;
-    });
-
-    document.getElementById("total").innerText = "المجموع: " + total;
-}
-
-function checkout(){
-    let msg = "طلب جديد:%0A";
+/* دفع */
+function pay(){
+    let msg = "طلب:%0A";
     cart.forEach(i=>{
         msg += `${i.name} - ${i.price} ريال%0A`;
     });
@@ -245,7 +202,7 @@ function checkout(){
 }
 
 function openWhats(){
-    window.open(`https://wa.me/966563683212`);
+    window.open("https://wa.me/966563683212");
 }
 </script>
 
