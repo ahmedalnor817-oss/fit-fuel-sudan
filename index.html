@@ -3,34 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diet Programs</title>
+<title>Diet Program</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
 body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
-    background: #fff;
+    direction: rtl;
 }
 
 /* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
+.nav {
     background: white;
-    position: sticky;
+    padding: 15px 40px;
+    position: fixed;
+    width: 100%;
     top: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     z-index: 1000;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #00b894;
 }
 
 /* Hero */
@@ -40,53 +32,31 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
+.overlay {
     background: rgba(0,0,0,0.5);
-}
-
-.hero-content {
-    position: relative;
     color: white;
+    padding: 40px;
     text-align: center;
-}
-
-.hero h1 {
-    font-size: 50px;
-    margin-bottom: 10px;
-}
-
-.hero p {
-    font-size: 18px;
 }
 
 /* Programs */
-.programs {
-    padding: 80px 40px;
+.container {
+    padding: 100px 40px;
 }
 
-.section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 32px;
-}
-
-.cards {
+.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
 }
 
 .card {
     position: relative;
-    border-radius: 15px;
+    height: 320px;
     overflow: hidden;
-    height: 350px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
@@ -98,72 +68,81 @@ body {
 
 .card-overlay {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
+    bottom: 0;
     color: white;
+    padding: 20px;
+    background: linear-gradient(to top, black, transparent);
 }
 
-.card h3 {
-    margin: 0;
-    font-size: 24px;
+/* Subscription */
+.subscription {
+    background: #f5f5f5;
+    padding: 50px 20px;
+    text-align: center;
 }
 
-.card p {
-    margin: 5px 0;
-    font-size: 14px;
+.plans button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: #00b894;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
+.pricing {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.price-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+}
+
+/* Button */
 .btn {
     background: #00b894;
-    padding: 10px 15px;
-    border-radius: 8px;
-    display: inline-block;
-    margin-top: 10px;
-    text-decoration: none;
     color: white;
+    padding: 10px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 8px;
 }
-
-/* Hover */
-.card:hover {
-    transform: scale(1.03);
-    transition: 0.3s;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<!-- Navbar -->
-<div class="navbar">
-    <div class="logo">DIET</div>
-    <div>Programs</div>
+<div class="nav">
+    <h2>DIET</h2>
 </div>
 
 <!-- Hero -->
 <div class="hero">
-    <div class="hero-content">
-        <h1>اختر برنامجك الغذائي</h1>
-        <p>وجبات صحية جاهزة توصلك يومياً</p>
+    <div class="overlay">
+        <h1>وجبات صحية جاهزة</h1>
+        <p>اختر برنامجك وابدأ اليوم</p>
     </div>
 </div>
 
 <!-- Programs -->
-<section class="programs">
-    <h2 class="section-title">برامجنا</h2>
+<div class="container">
+    <h2>برامجنا</h2>
 
-    <div class="cards">
-
+    <div class="grid">
         <div class="card">
             <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
             <div class="card-overlay">
                 <h3>وازن</h3>
-                <p>نظام متوازن يومي</p>
-                <a href="#" class="btn">استعرض</a>
+                <p>نظام متوازن</p>
             </div>
         </div>
 
@@ -172,7 +151,6 @@ body {
             <div class="card-overlay">
                 <h3>بروتين عالي</h3>
                 <p>لبناء العضلات</p>
-                <a href="#" class="btn">استعرض</a>
             </div>
         </div>
 
@@ -181,12 +159,61 @@ body {
             <div class="card-overlay">
                 <h3>كيتو</h3>
                 <p>حرق الدهون</p>
-                <a href="#" class="btn">استعرض</a>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subscription -->
+<div class="subscription">
+    <h2>اختر اشتراكك</h2>
+
+    <div class="plans">
+        <button onclick="setPlan('full')">يوم كامل</button>
+        <button onclick="setPlan('lunch')">غداء + عشاء</button>
+        <button onclick="setPlan('breakfast')">فطور + غداء</button>
+    </div>
+
+    <div class="pricing">
+
+        <div class="price-card">
+            <h3>أسبوع</h3>
+            <p id="weekPrice">650 ريال</p>
+            <button class="btn" onclick="order('أسبوع')">اشترك</button>
+        </div>
+
+        <div class="price-card">
+            <h3>شهر</h3>
+            <p id="monthPrice">2200 ريال</p>
+            <button class="btn" onclick="order('شهر')">اشترك</button>
         </div>
 
     </div>
-</section>
+</div>
+
+<script>
+let currentPlan = "full";
+
+function setPlan(plan) {
+    currentPlan = plan;
+
+    if(plan === "full") {
+        document.getElementById("weekPrice").innerText = "650 ريال";
+        document.getElementById("monthPrice").innerText = "2200 ريال";
+    } else {
+        document.getElementById("weekPrice").innerText = "500 ريال";
+        document.getElementById("monthPrice").innerText = "1800 ريال";
+    }
+}
+
+function order(type) {
+    let price = document.getElementById(type === 'أسبوع' ? "weekPrice" : "monthPrice").innerText;
+
+    let message = `مرحبا، اريد الاشتراك (${type}) في خطة ${currentPlan} بسعر ${price}`;
+    
+    window.open(`https://wa.me/966XXXXXXXXX?text=${encodeURIComponent(message)}`);
+}
+</script>
 
 </body>
 </html>
