@@ -12,21 +12,26 @@ body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
     direction: rtl;
-    background: #fafafa;
+    background: #f8f9fa;
 }
 
-/* Navbar */
+/* NAV */
 .nav {
     position: fixed;
     width: 100%;
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(10px);
-    padding: 15px 40px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background: white;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
+    display: flex;
+    justify-content: space-between;
 }
 
-/* Hero */
+.cart-icon {
+    cursor: pointer;
+}
+
+/* HERO */
 .hero {
     height: 100vh;
     background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover;
@@ -37,90 +42,39 @@ body {
 
 .overlay {
     background: rgba(0,0,0,0.6);
-    padding: 50px;
     color: white;
+    padding: 50px;
+    border-radius: 15px;
     text-align: center;
-    border-radius: 20px;
-    animation: fadeIn 1s ease;
 }
 
-@keyframes fadeIn {
-    from {opacity:0; transform:translateY(30px);}
-    to {opacity:1;}
-}
-
-/* Section */
+/* SECTION */
 .section {
-    padding: 80px 40px;
+    padding: 80px 30px;
 }
 
-/* Cards */
+/* CARDS */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
 }
 
 .card {
-    position: relative;
-    height: 320px;
-    border-radius: 20px;
+    background: white;
+    border-radius: 15px;
     overflow: hidden;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card img {
     width: 100%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
 }
 
-.card-overlay {
-    position: absolute;
-    bottom: 0;
-    padding: 20px;
-    color: white;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
-
-/* Subscription */
-.subscription {
-    text-align: center;
-}
-
-.plans button {
-    margin: 10px;
-    padding: 12px 20px;
-    border: none;
-    background: #00b894;
-    color: white;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.pricing {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
-
-.price-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    width: 220px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.price-card:hover {
-    transform: translateY(-10px);
+.card-content {
+    padding: 15px;
 }
 
 .btn {
@@ -128,23 +82,61 @@ body {
     color: white;
     padding: 10px;
     border: none;
-    margin-top: 10px;
     border-radius: 8px;
     cursor: pointer;
 }
 
-/* Animation Scroll */
-.hidden {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: 1s;
+/* CART */
+.cart {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    padding: 20px;
+    transition: 0.4s;
+    overflow-y: auto;
 }
 
-.show {
-    opacity: 1;
-    transform: translateY(0);
+.cart.active {
+    right: 0;
 }
 
+/* REVIEWS */
+.review {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* FEATURES */
+.features {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+}
+
+/* FLOAT WHATSAPP */
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #25D366;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+}
 </style>
 </head>
 
@@ -152,106 +144,109 @@ body {
 
 <div class="nav">
     <h2>DIET PRO</h2>
+    <div class="cart-icon" onclick="toggleCart()">🛒</div>
 </div>
 
-<!-- Hero -->
+<!-- HERO -->
 <div class="hero">
     <div class="overlay">
-        <h1>نظامك الغذائي يبدأ هنا</h1>
-        <p>وجبات صحية جاهزة توصلك يومياً</p>
+        <h1>ابدأ نظامك الغذائي الآن</h1>
+        <p>وجبات صحية توصلك يومياً</p>
     </div>
 </div>
 
-<!-- Programs -->
-<div class="section hidden">
-    <h2>برامجنا</h2>
+<!-- FEATURES -->
+<div class="section">
+    <h2>لماذا نحن؟</h2>
+    <div class="features">
+        <div class="feature">🚚 توصيل يومي</div>
+        <div class="feature">🥗 وجبات صحية</div>
+        <div class="feature">🔥 نتائج سريعة</div>
+    </div>
+</div>
+
+<!-- PROGRAMS -->
+<div class="section">
+    <h2>البرامج</h2>
 
     <div class="grid">
-
         <div class="card">
             <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
-            <div class="card-overlay">
+            <div class="card-content">
                 <h3>وازن</h3>
-                <p>نظام متوازن</p>
+                <p>650 ريال / أسبوع</p>
+                <button class="btn" onclick="addToCart('وازن',650)">أضف للسلة</button>
             </div>
         </div>
 
         <div class="card">
             <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
-            <div class="card-overlay">
-                <h3>بروتين عالي</h3>
-                <p>لبناء العضلات</p>
+            <div class="card-content">
+                <h3>بروتين</h3>
+                <p>700 ريال / أسبوع</p>
+                <button class="btn" onclick="addToCart('بروتين',700)">أضف للسلة</button>
             </div>
         </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
-            <div class="card-overlay">
-                <h3>كيتو</h3>
-                <p>حرق الدهون</p>
-            </div>
-        </div>
-
     </div>
 </div>
 
-<!-- Subscription -->
-<div class="section subscription hidden">
-    <h2>اختر اشتراكك</h2>
-
-    <div class="plans">
-        <button onclick="setPlan('full')">يوم كامل</button>
-        <button onclick="setPlan('lunch')">غداء + عشاء</button>
-        <button onclick="setPlan('breakfast')">فطور + غداء</button>
-    </div>
-
-    <div class="pricing">
-        <div class="price-card">
-            <h3>أسبوع</h3>
-            <p id="weekPrice">650 ريال</p>
-            <button class="btn" onclick="order('أسبوع')">اشترك</button>
-        </div>
-
-        <div class="price-card">
-            <h3>شهر</h3>
-            <p id="monthPrice">2200 ريال</p>
-            <button class="btn" onclick="order('شهر')">اشترك</button>
-        </div>
+<!-- REVIEWS -->
+<div class="section">
+    <h2>آراء العملاء</h2>
+    <div class="grid">
+        <div class="review">⭐️⭐️⭐️⭐️⭐️ ممتاز جداً</div>
+        <div class="review">⭐️⭐️⭐️⭐️ خسيت 5 كيلو</div>
     </div>
 </div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+    <h3>سلة الطلبات</h3>
+    <div id="cartItems"></div>
+    <h4 id="total">المجموع: 0</h4>
+    <button class="btn" onclick="checkout()">إتمام الطلب</button>
+</div>
+
+<!-- WHATSAPP -->
+<div class="whatsapp" onclick="openWhats()">💬</div>
 
 <script>
-let currentPlan = "full";
+let cart = [];
 
-function setPlan(plan) {
-    currentPlan = plan;
-
-    if(plan === "full") {
-        weekPrice.innerText = "650 ريال";
-        monthPrice.innerText = "2200 ريال";
-    } else {
-        weekPrice.innerText = "500 ريال";
-        monthPrice.innerText = "1800 ريال";
-    }
+function toggleCart(){
+    document.getElementById("cart").classList.toggle("active");
 }
 
-function order(type) {
-    let price = type === "أسبوع" ? weekPrice.innerText : monthPrice.innerText;
-
-    let msg = `مرحبا، اريد الاشتراك (${type}) خطة ${currentPlan} بسعر ${price}`;
-    window.open(`https://wa.me/966XXXXXXXXX?text=${encodeURIComponent(msg)}`);
+function addToCart(name,price){
+    cart.push({name,price});
+    renderCart();
 }
 
-/* Scroll Animation */
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting){
-            entry.target.classList.add("show");
-        }
+function renderCart(){
+    let items = document.getElementById("cartItems");
+    items.innerHTML = "";
+    let total = 0;
+
+    cart.forEach(item=>{
+        items.innerHTML += `<p>${item.name} - ${item.price} ريال</p>`;
+        total += item.price;
     });
-});
 
-document.querySelectorAll(".hidden").forEach(el => observer.observe(el));
+    document.getElementById("total").innerText = "المجموع: " + total;
+}
+
+function checkout(){
+    let msg = "طلب جديد:%0A";
+    cart.forEach(i=>{
+        msg += `${i.name} - ${i.price} ريال%0A`;
+    });
+
+    window.open(`https://wa.me/966563683212?text=${msg}`);
+}
+
+function openWhats(){
+    window.open(`https://wa.me/966563683212`);
+}
 </script>
 
 </body>
