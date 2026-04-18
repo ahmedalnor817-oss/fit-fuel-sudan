@@ -3,64 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم دايت - اطلب وجبتك الصحية</title>
+    <title>Fit Fuel Elite | فت فيول إليت</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* تنسيقات عامة */
         :root {
-            --primary-color: #27ae60;
-            --secondary-color: #2c3e50;
-            --bg-color: #f9f9f9;
+            --primary-color: #ff3e3e; /* أحمر رياضي */
+            --secondary-color: #1a1a1a; /* أسود غامق */
+            --accent-color: #f4f4f4;
+            --text-color: #ffffff;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; }
-        header { background: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
-        .meal-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
-        .meal-card:hover { transform: translateY(-5px); }
-        .meal-info { padding: 15px; }
-        .badge { background: var(--primary-color); color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; }
-        .btn-order { background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-        .footer-cart { position: fixed; bottom: 0; width: 100%; background: var(--secondary-color); color: white; padding: 15px; text-align: center; font-size: 18px; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* الهيدر (القائمة العلوية) */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* قسم الترحيب (Hero Section) */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        /* قسم المنتجات */
+        .products-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+        }
+
+        .section-title span {
+            color: var(--primary-color);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #1e1e1e;
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+            transition: 0.4s;
+            border: 1px solid #333;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .product-card p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: transparent;
+            color: white;
+            border: 2px solid var(--primary-color);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-color);
+        }
+
+        /* التذييل (Footer) */
+        footer {
+            background: #000;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* متوافق مع الجوال */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 15px; }
+            .hero-content h1 { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1 style="color: var(--primary-color);">Green Diet Kitchen 🥗</h1>
-    <p>وجبات صحية مدروسة السعرات تصلك أينما كنت</p>
-</header>
+    <header>
+        <nav class="container">
+            <div class="logo">FIT FUEL <span>ELITE</span></div>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#products">المنتجات</a></li>
+                <li><a href="#contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<div class="container" id="menu">
-    <div class="meal-card">
-        <img src="https://via.placeholder.com/400x250" alt="Meal" style="width:100%">
-        <div class="meal-info">
-            <span class="badge">Keto Friendly</span>
-            <h3>سلمون مشوي بالكينوا</h3>
-            <p style="color: #666;">450 كالوري | 35ج بروتين</p>
-            <p style="font-weight: bold; color: var(--primary-color);">55 ريال</p>
-            <button class="btn-order" onclick="addToCart('سلمون مشوي', 55)">أضف للسلة</button>
+    <section class="hero">
+        <div class="hero-content container">
+            <h1>ابنِ عضلاتك بذكاء</h1>
+            <p>نقدم لك أجود أنواع المكملات الغذائية والبروتينات في منطقة القطيف.</p>
+            <a href="#products" class="btn">ابدأ التسوق الآن</a>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="footer-cart">
-    السلة: <span id="cart-count">0</span> وجبة - <button onclick="checkout()" style="background: #27ae60; border: none; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer;">إتمام الطلب عبر واتساب ✅</button>
-</div>
+    <section id="products" class="products-section container">
+        <h2 class="section-title">أفضل <span>المبيعات</span></h2>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200?text=Whey+Protein" alt="Whey Protein">
+                <h3>واي بروتين إيزوليت</h3>
+                <p>امتصاص سريع، صفر دهون، مثالي للاستشفاء العضلي.</p>
+                <span class="price">280 ر.س</span>
+                <button class="buy-btn">أضف إلى السلة</button>
+            </div>
 
-<script>
-    let cart = [];
-    function addToCart(name, price) {
-        cart.push({name, price});
-        document.getElementById('cart-count').innerText = cart.length;
-        alert(name + " تمت إضافتها لسلتك!");
-    }
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200?text=BCAA" alt="BCAA">
+                <h3>أحماض أمينية BCAA</h3>
+                <p>لتعزيز الطاقة أثناء التمرين ومنع الهدم العضلي.</p>
+                <span class="price">150 ر.س</span>
+                <button class="buy-btn">أضف إلى السلة</button>
+            </div>
 
-    function checkout() {
-        if(cart.length === 0) return alert("السلة فارغة!");
-        let msg = "طلب جديد من الموقع:\n";
-        cart.forEach(item => msg += "- " + item.name + " (" + item.price + " ريال)\n");
-        let whatsappUrl = "https://wa.me/966XXXXXXXXX?text=" + encodeURIComponent(msg); // ضع رقمك هنا
-        window.open(whatsappUrl, '_blank');
-    }
-</script>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/200x200?text=Creatine" alt="Creatine">
+                <h3>كرياتين مونوهيدرات</h3>
+                <p>زيادة القوة البدنية والحجم العضلي بشكل ملحوظ.</p>
+                <span class="price">120 ر.س</span>
+                <button class="buy-btn">أضف إلى السلة</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <p>Fit Fuel Elite - القطيف، المملكة العربية السعودية</p>
+            <div class="social-links">
+                <a href="#">إنستغرام</a> | <a href="#">واتساب</a> | <a href="#">تيك توك</a>
+            </div>
+            <p style="font-size: 0.8rem; color: #555;">&copy; 2026 جميع الحقوق محفوظة لـ فت فيول إليت</p>
+        </div>
+    </footer>
 
 </body>
 </html>
